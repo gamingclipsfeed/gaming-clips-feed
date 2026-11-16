@@ -1,31 +1,31 @@
 {
- "clips": [
-  {
-   "date": "2026-11-16",
-   "file": "2026-11-16_01_Flip-Master.mp4",
-   "campaign": "Flip Master",
-   "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src01.mp4",
-   "start": 0.0,
-   "game": "Flip Master",
-   "hook": "Wait for the landing..."
-  },
-  {
-   "date": "2026-11-16",
-   "file": "2026-11-16_02_Flip-Master.mp4",
-   "campaign": "Flip Master",
-   "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src01.mp4",
-   "start": 0.0,
-   "game": "Flip Master",
-   "hook": "Hardest trick in the game"
-  },
-  {
-   "date": "2026-11-16",
-   "file": "2026-11-16_03_Flip-Master.mp4",
-   "campaign": "Flip Master",
-   "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src00.mp4",
-   "start": 0.0,
-   "game": "Flip Master",
-   "hook": "Rate this flip 1-10"
-  }
- ]
+  "clips": [
+    {
+      "date": "2026-11-16",
+      "file": "2026-11-16_01_Flip-Master.mp4",
+      "campaign": "Flip Master",
+      "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src01.mp4",
+      "start": 0.0,
+      "game": "Flip Master",
+      "hook": "Wait for the landing..."
+    },
+    {
+      "date": "2026-11-16",
+      "file": "2026-11-16_02_Flip-Master.mp4",
+      "campaign": "Flip Master",
+      "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src01.mp4",
+      "start": 0.0,
+      "game": "Flip Master",
+      "hook": "Hardest trick in the game"
+    },
+    {
+      "date": "2026-11-16",
+      "file": "2026-11-16_03_Flip-Master.mp4",
+      "campaign": "Flip Master",
+      "source": "/sessions/rcw-019ka7tds9dqjgw2dfj1xgqi/mnt/youtube clipping/sources/Flip_Master/src00.mp4",
+      "start": 0.0,
+      "game": "Flip Master",
+      "hook": "Rate this flip 1-10"
+    }
+  ]
 }
