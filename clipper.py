@@ -78,7 +78,11 @@ def run(cmd, timeout=1800, check=True):
 
 
 def ytdlp(args, timeout=1800, check=True):
-    cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG] + args
+    cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG]
+    ck = os.environ.get("YT_COOKIES_FILE")
+    if ck and os.path.exists(ck) and os.path.getsize(ck) > 0:
+        cmd += ["--cookies", ck]
+    cmd += args
     return run(cmd, timeout=timeout, check=check)
 
 

@@ -20,12 +20,17 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
           pip install -q -U "yt-dlp[default]" faster-whisper pillow
       - name: Make clips
-        run: python clipper.py
+        env:
+          YT_COOKIES: ${{ secrets.YT_COOKIES }}
+        run: |
+          if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/yt_cookies.txt; export YT_COOKIES_FILE=/tmp/yt_cookies.txt; else echo "::warning::YT_COOKIES secret not set - YouTube will likely block downloads"; fi
+          python clipper.py
       - name: Save clips to the repo
         run: |
           git config user.name "gaming-clips-bot"
           git config user.email "bot@users.noreply.github.com"
           rm -rf ready_to_post/*_parts data/work
+          rm -f /tmp/yt_cookies.txt
           git add -A ready_to_post data/state.json logs || true
           git commit -m "Clips for $(date -d tomorrow +%F)" || echo "nothing new"
           git push
