@@ -81,7 +81,7 @@ def ytdlp(args, timeout=1800, check=True):
     cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG]
     ck = os.environ.get("YT_COOKIES_FILE")
     if ck and os.path.exists(ck) and os.path.getsize(ck) > 0:
-        cmd += ["--cookies", ck]
+        cmd += ["--cookies", ck, "--sleep-requests", "1.5", "--sleep-interval", "4", "--max-sleep-interval", "9"]
     cmd += args
     return run(cmd, timeout=timeout, check=check)
 
@@ -482,8 +482,10 @@ def daily(cfg, state):
                     "hashtags": src.get("hashtags", []),
                     "credit_line": (src.get("credit_line") or "").format(uploader=info.get("uploader", "the creator"), url=f"https://youtu.be/{v['id']}"),
                     "source_title": info.get("title", "")})
-            if len(by_game.get(game, [])) >= need * 2:
+            if len(by_game.get(game, [])) >= 2:
                 break
+        if sum(len(v) for v in by_game.values()) >= need * 2:
+            break  # enough candidates - stop early to stay under YouTube's limits
     for g in by_game:
         by_game[g].sort(key=lambda m: (-m["views"], -m["score"]))
 

@@ -4,7 +4,7 @@
   "seconds_before_peak": 12,
   "min_source_minutes": 6,
   "max_clips_per_video": 2,
-  "videos_to_scan_per_creator": 15,
+  "videos_to_scan_per_creator": 5,
   "gameplay_zoom": 1.3,
   "captions": true,
   "keep_it_pg": true,
