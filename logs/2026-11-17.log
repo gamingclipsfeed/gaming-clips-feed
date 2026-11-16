@@ -456,3 +456,31 @@ ERROR: [youtube] OTIY7qlKu2g: Requested format is not available. Use --list-form
 ERROR: [youtube] Kv8Bn3Mpnog: Requested format is not available. Use --list-formats for a list of availab
 [00:42:21] Found 0 candidate moment(s) in 0 game(s); target 3 clip(s).
 [00:42:21] Made 0 new clip(s). 0 waiting to post.
+[00:43:42] ===== daily run =====
+[00:46:41] Found 9 candidate moment(s) in 8 game(s); target 3 clip(s).
+[00:46:41] • GTA 5 — SMii7Y Logs @ 23s (most-replayed)
+[00:48:41]   ✅ made 2026-11-17_01_GTA-5.mp4 — The craziest GTA 5 clip today 🔥
+[00:48:41] • Call of Duty — No Copyright Gameplay @ 241s (loudest)
+[00:50:48]   ✅ made 2026-11-17_02_Call-of-Duty.mp4 — The craziest Call of Duty clip today 🔥
+[00:50:48] • EA FC — FLASH PLAYER @ 445s (loudest)
+[00:50:50]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] 68zd5tvd3dY: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:50] • NBA 2K — Double H @ 70s (most-replayed)
+[00:50:51]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] 9Hi2xCLSoJs: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:51] • Assassin's Creed — Hooded Crow @ 425s (most-replayed)
+[00:50:53]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] mK-pPJtD8wg: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:53] • Halo — No Copyright Gameplay @ 533s (loudest)
+[00:50:54]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] -YEkagDzMk8: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:54] • Forza — No Copyright Gameplay @ 298s (loudest)
+[00:50:55]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] i-bBdHhD7xo: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:55] • Madden — MMG @ 878s (most-replayed)
+[00:50:57]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] FxUzr8Zmrno: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:57] • GTA 5 — SMii7Y Logs @ 1430s (most-replayed)
+[00:50:58]   ❌ failed: command failed: /opt/hostedtoolcache/Python/3.11.18/x64/bin/python -m yt_dlp --no-warnings ...
+ERROR: [youtube] 8HJLGYyvwPE: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTub
+[00:50:58] Made 2 new clip(s). 2 waiting to post.

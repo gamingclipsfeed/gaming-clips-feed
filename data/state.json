@@ -26,6 +26,20 @@
       "start": 0.0,
       "game": "Flip Master",
       "hook": "Rate this flip 1-10"
+    },
+    {
+      "date": "2026-11-17",
+      "file": "2026-11-17_01_GTA-5.mp4",
+      "game": "GTA 5",
+      "video_id": "8HJLGYyvwPE",
+      "start": 23.2
+    },
+    {
+      "date": "2026-11-17",
+      "file": "2026-11-17_02_Call-of-Duty.mp4",
+      "game": "Call of Duty",
+      "video_id": "rasQIEyA_Xg",
+      "start": 241.0
     }
   ]
 }
