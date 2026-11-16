@@ -1,0 +1,31 @@
+name: Make tomorrow's clips
+on:
+  schedule:
+    - cron: "0 18 * * 0-4,6"   # 18:00 UTC = 20:00 Israel (winter), Sat-Thu evenings
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  clips:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      TZ: Asia/Jerusalem
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          pip install -q -U "yt-dlp[default]" faster-whisper pillow
+      - name: Make clips
+        run: python clipper.py
+      - name: Save clips to the repo
+        run: |
+          git config user.name "gaming-clips-bot"
+          git config user.email "bot@users.noreply.github.com"
+          rm -rf ready_to_post/*_parts data/work
+          git add -A ready_to_post data/state.json logs || true
+          git commit -m "Clips for $(date -d tomorrow +%F)" || echo "nothing new"
+          git push

@@ -1,0 +1,158 @@
+{
+  "clips_per_day": 4,
+  "clip_length_seconds": 38,
+  "seconds_before_peak": 12,
+  "min_source_minutes": 6,
+  "max_clips_per_video": 2,
+  "videos_to_scan_per_creator": 15,
+  "gameplay_zoom": 1.3,
+  "captions": true,
+  "keep_it_pg": true,
+  "whisper_model": "small",
+  "keep_posted_days": 14,
+  "default_hashtags": [
+    "#shorts",
+    "#gaming",
+    "#gamingclips"
+  ],
+  "sources": [
+    {
+      "game": "GTA 5",
+      "url": "https://www.youtube.com/results?search_query=gta+5+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#gta5",
+        "#gta",
+        "#gtaonline"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "Call of Duty",
+      "url": "https://www.youtube.com/results?search_query=call+of+duty+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#callofduty",
+        "#cod",
+        "#warzone"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "NBA 2K",
+      "url": "https://www.youtube.com/results?search_query=nba+2k+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#nba2k",
+        "#2k",
+        "#basketball"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "EA FC",
+      "url": "https://www.youtube.com/results?search_query=ea+fc+fifa+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#eafc",
+        "#fifa",
+        "#football"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "Madden",
+      "url": "https://www.youtube.com/results?search_query=madden+nfl+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#madden",
+        "#nfl",
+        "#football"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "Halo",
+      "url": "https://www.youtube.com/results?search_query=halo+infinite+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#halo",
+        "#haloinfinite",
+        "#xbox"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "Forza",
+      "url": "https://www.youtube.com/results?search_query=forza+horizon+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#forza",
+        "#forzahorizon",
+        "#racing"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    },
+    {
+      "game": "Assassin's Creed",
+      "url": "https://www.youtube.com/results?search_query=assassins+creed+gameplay&sp=EgIwAQ%3D%3D",
+      "require_cc": true,
+      "creator": "",
+      "hashtags": [
+        "#assassinscreed",
+        "#ubisoft"
+      ],
+      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+    }
+  ],
+  "_example_source_copy_this_format": {
+    "creator": "Creator name from the Whop campaign",
+    "game": "GTA 6",
+    "url": "https://www.youtube.com/@CreatorChannel/videos",
+    "hashtags": [
+      "#gta6",
+      "#gta"
+    ],
+    "credit_line": "Anything the campaign says you must put in the description",
+    "paused": false
+  },
+  "campaigns": [
+    {
+      "name": "Flip Master",
+      "game": "Flip Master",
+      "clips_per_day": 0,
+      "clip_seconds": [
+        30,
+        45
+      ],
+      "files": [
+        "https://crusercontent.com/organizations/042abb0b-34c9-420f-8789-044830895672/campaigns/references/videos/3ccd707a-0ec9-4f58-a39d-2e899600dabc.mp4",
+        "https://crusercontent.com/organizations/042abb0b-34c9-420f-8789-044830895672/campaigns/references/videos/5f3caa88-0cbc-4870-9f7a-8172f58b6027.mp4",
+        "https://crusercontent.com/organizations/042abb0b-34c9-420f-8789-044830895672/campaigns/references/videos/1e3fc46d-7dd2-4e62-b44a-41611cc81e18.mp4",
+        "https://crusercontent.com/organizations/042abb0b-34c9-420f-8789-044830895672/campaigns/references/videos/ffd26212-23f6-4498-b27b-01f909889e7b.mp4",
+        "https://www.dropbox.com/scl/fo/ugh0rirt2mddprzcnr5wf/ABlEesqAtiwwDoCbaZCP23U?rlkey=gq4tggr9hmi9owbjnroxfopjk&st=tdoejrfm&dl=0",
+        "https://www.dropbox.com/scl/fi/uoy24z14g4q7605qi6avz/FlipMaster_Steam_trailer.mp4?rlkey=bibv1wafgb5viaj206u0p3nce&st=yfcy5nr3&dl=0"
+      ],
+      "bottom_text": "FLIP MASTER - Wishlist on Steam",
+      "caption": "{hook} Flip Master is in Early Access on Steam - wishlist it now!",
+      "hashtags": [
+        "#flipmaster",
+        "#steam",
+        "#indiegame",
+        "#gaming",
+        "#fails"
+      ],
+      "submit_url": "https://contentrewards.com/c/campaigns/956494e1-b0c2-4bc7-8dd0-4f883ce4b892",
+      "notes": "Turn ON the paid-partnership / branded content label when posting. Keep the post up 60+ days.",
+      "paused": true
+    }
+  ],
+  "rating": "PG-13"
+}
