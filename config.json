@@ -48,7 +48,35 @@
         "GTA 6 physics are actually insane 🤯"
       ],
       "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
-      "hook_first": true
+      "hook_first": true,
+      "min_upload_date": "20261119",
+      "exclude_title_words": [
+        "didn't show",
+        "didnt show",
+        "mod ",
+        " mods",
+        "modded",
+        "remake",
+        "remaster",
+        "concept",
+        "fan made",
+        "fanmade",
+        "leak",
+        "gta 5",
+        "gta v ",
+        "gtav",
+        "gta online",
+        "trailer",
+        "everything we know",
+        "graphics",
+        "recreat",
+        "prediction",
+        "theory",
+        "unreal engine",
+        "ue5",
+        "rumor",
+        "rumour"
+      ]
     },
     {
       "game": "GTA 5",
