@@ -9,6 +9,11 @@ jobs:
   clips:
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    services:
+      potoken:   # free PO-token server - helps get past YouTube's "not a bot" check
+        image: brainicism/bgutil-ytdlp-pot-provider
+        ports:
+          - 4416:4416
     env:
       TZ: Asia/Jerusalem
     steps:
@@ -20,7 +25,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
-          pip install -q -U "yt-dlp[default]" faster-whisper pillow
+          pip install -q -U "yt-dlp[default]" bgutil-ytdlp-pot-provider faster-whisper pillow
       - name: Make clips
         env:
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
