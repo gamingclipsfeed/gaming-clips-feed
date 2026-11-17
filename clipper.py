@@ -392,9 +392,11 @@ def make_clip(src_file, meta, cfg, state):
         hits = pg_check(transcript)
         if hits:
             raise NotPG(f"not PG ({', '.join(hits[:3])})")
-    title = make_title(transcript, meta["game"], meta["creator"])
+    hooks = meta.get("hooks") or [h.format(game=meta["game"]) for h in HOOK_TEMPLATES]
+    # hype games (GTA 6) use proven scroll-stopping hooks instead of a transcript line
+    title = random.choice(hooks) if meta.get("hook_first") and meta.get("hooks") else make_title(transcript, meta["game"], meta["creator"])
     if cfg.get("keep_it_pg", True) and pg_check(title):
-        title = random.choice(HOOK_TEMPLATES).format(game=meta["game"])
+        title = random.choice(hooks)
     n = len([x for x in state["clips"] if x["date"] == TODAY]) + 1
     base = f"{TODAY}_{n:02d}_{re.sub(r'[^A-Za-z0-9]+', '-', meta['game'])[:20]}"
     out = os.path.join(READY, base + ".mp4")
@@ -405,7 +407,9 @@ def make_clip(src_file, meta, cfg, state):
         desc_lines.append(f"Full video: {meta['source_url']}")
     if meta.get("credit_line"):
         desc_lines.append(meta["credit_line"])
-    desc_lines += ["", " ".join(tags)]
+    if meta.get("cta"):
+        desc_lines += ["", meta["cta"]]
+    desc_lines += ["", " ".join(dict.fromkeys(tags))]
     info = {"file": os.path.basename(out), "title": title[:100], "description": "\n".join(desc_lines),
             "tags": [t.lstrip("#") for t in tags], **meta, "date": TODAY, "posted": False}
     save_json(os.path.join(READY, base + ".json"), info)
@@ -440,6 +444,11 @@ def daily(cfg, state):
     # gather candidate moments per game
     by_game = {}
     random.shuffle(sources)
+    # priority games (e.g. GTA 6 launch push) are searched first and get most daily slots
+    def _active(src):
+        return src.get("priority") and TODAY <= src.get("priority_until", "9999-12-31")
+    sources.sort(key=lambda src: not _active(src))
+    priority = {src["game"]: src.get("priority_share", 0.5) for src in sources if _active(src)}
     for src in sources:
         game = src.get("game", "Gaming")
         try:
@@ -480,9 +489,10 @@ def daily(cfg, state):
                     "views": info.get("view_count") or 0, "how": how, "game": game,
                     "creator": src.get("creator") or info.get("uploader", ""),
                     "hashtags": src.get("hashtags", []),
+                    "hooks": src.get("hooks", []), "cta": src.get("cta", ""), "hook_first": src.get("hook_first", False),
                     "credit_line": (src.get("credit_line") or "").format(uploader=info.get("uploader", "the creator"), url=f"https://youtu.be/{v['id']}"),
                     "source_title": info.get("title", "")})
-            if len(by_game.get(game, [])) >= 2:
+            if len(by_game.get(game, [])) >= (need * 3 if game in priority else 2):
                 break
         if sum(len(v) for v in by_game.values()) >= need * 2:
             break  # enough candidates - stop early to stay under YouTube's limits
@@ -492,6 +502,20 @@ def daily(cfg, state):
     # round-robin across games so the channel stays varied
     picks, games = [], list(by_game)
     per_vid_count = {}
+    # fill the priority share first (e.g. 75% GTA 6), then round-robin the rest
+    for g, share in priority.items():
+        slots = max(1, round(need * share))
+        got = 0
+        while got < slots and by_game.get(g):
+            m = by_game[g].pop(0)
+            c = per_vid_count.get(m["video_id"], 0)
+            if c < per_video:
+                per_vid_count[m["video_id"]] = c + 1
+                picks.append(m); got += 1
+    backups = {g: by_game.pop(g) for g in list(priority) if g in by_game}
+    games = list(by_game)
+    if priority:
+        log(f"Priority push: {', '.join(priority)} -> {len(picks)} candidate(s) queued first")
     want = need * 3  # extra candidates so clips that fail the PG check get replaced
     while len(picks) < want and any(by_game.values()):
         for g in games:
@@ -504,6 +528,8 @@ def daily(cfg, state):
                     break
             if len(picks) >= want:
                 break
+    for g, ms in backups.items():  # spare priority clips, used only if others fail
+        picks.extend(m for m in ms if per_vid_count.get(m["video_id"], 0) < per_video)
     log(f"Found {len(picks)} candidate moment(s) in {len(by_game)} game(s); target {need} clip(s).")
 
     made = []
@@ -521,7 +547,7 @@ def daily(cfg, state):
                 cands = [f for f in os.listdir(WORK) if f.startswith(os.path.basename(raw)[:-4])]
                 if cands:
                     raw = os.path.join(WORK, cands[0])
-            meta = {k: m[k] for k in ("game", "creator", "hashtags", "credit_line", "video_id", "start")}
+            meta = {k: m.get(k) for k in ("game", "creator", "hashtags", "credit_line", "video_id", "start", "hooks", "cta", "hook_first")}
             meta["source_url"] = f"{m['url']}&t={int(m['start'])}s" if "watch?v=" in m["url"] else m["url"]
             made.append(make_clip(raw, meta, cfg, state))
             save_json(STATE_PATH, state)
