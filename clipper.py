@@ -77,13 +77,41 @@ def run(cmd, timeout=1800, check=True):
     return r
 
 
+YT_MODES = ["cookies", "tv", "web_safari", "mweb"]  # tried in order when YouTube bot-checks us
+_yt_mode = {"i": 0}
+
+
 def ytdlp(args, timeout=1800, check=True):
-    cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG]
+    """Run yt-dlp; if YouTube says 'confirm you're not a bot', switch to the next
+    client/cookie mode and remember the one that works for the rest of the run."""
     ck = os.environ.get("YT_COOKIES_FILE")
-    if ck and os.path.exists(ck) and os.path.getsize(ck) > 0:
-        cmd += ["--cookies", ck, "--sleep-requests", "1.5", "--sleep-interval", "4", "--max-sleep-interval", "9"]
-    cmd += args
-    return run(cmd, timeout=timeout, check=check)
+    have_ck = bool(ck and os.path.exists(ck) and os.path.getsize(ck) > 0)
+    last = None
+    while _yt_mode["i"] < len(YT_MODES):
+        mode = YT_MODES[_yt_mode["i"]]
+        if mode == "cookies" and not have_ck:
+            _yt_mode["i"] += 1
+            continue
+        cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG,
+               "--sleep-requests", "1.5", "--sleep-interval", "4", "--max-sleep-interval", "9"]
+        if mode == "cookies":
+            cmd += ["--cookies", ck]
+        else:
+            cmd += ["--extractor-args", f"youtube:player_client={mode},default"]
+        r = run(cmd + args, timeout=timeout, check=False)
+        err = r.stderr or ""
+        if r.returncode == 0 or not re.search(r"not a bot|Sign in to confirm|HTTP Error 429", err):
+            if check and r.returncode != 0:
+                raise RuntimeError(f"command failed: yt-dlp ...\n{err[-1500:]}")
+            return r
+        last = err
+        _yt_mode["i"] += 1
+        if _yt_mode["i"] < len(YT_MODES):
+            log(f"  YouTube bot-check in '{mode}' mode - switching to '{YT_MODES[_yt_mode['i']]}'")
+    _yt_mode["i"] = len(YT_MODES) - 1  # keep trying the last mode for later videos
+    if check:
+        raise RuntimeError(f"command failed: yt-dlp (all modes bot-checked) ...\n{(last or '')[-1500:]}")
+    return r
 
 
 def video_duration(path):
