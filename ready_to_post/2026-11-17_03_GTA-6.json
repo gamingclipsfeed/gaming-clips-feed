@@ -48,5 +48,6 @@
   "hook_first": true,
   "source_url": "https://www.youtube.com/watch?v=ATybw9jn1nc&t=365s",
   "date": "2026-11-17",
-  "posted": false
+  "posted": true,
+  "skipped_reason": "pre-launch fan video, not real GTA 6 gameplay"
 }
