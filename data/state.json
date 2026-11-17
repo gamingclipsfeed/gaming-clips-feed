@@ -47,6 +47,34 @@
       "game": "GTA 6",
       "video_id": "ATybw9jn1nc",
       "start": 365.0
+    },
+    {
+      "date": "2026-11-18",
+      "file": "2026-11-18_01_Halo.mp4",
+      "game": "Halo",
+      "video_id": "-YEkagDzMk8",
+      "start": 533.0
+    },
+    {
+      "date": "2026-11-18",
+      "file": "2026-11-18_02_NBA-2K.mp4",
+      "game": "NBA 2K",
+      "video_id": "9Hi2xCLSoJs",
+      "start": 70.9
+    },
+    {
+      "date": "skipped",
+      "file": "",
+      "game": "Halo",
+      "video_id": "-YEkagDzMk8",
+      "start": 430.0
+    },
+    {
+      "date": "2026-11-18",
+      "file": "2026-11-18_03_NBA-2K.mp4",
+      "game": "NBA 2K",
+      "video_id": "9Hi2xCLSoJs",
+      "start": 300.6
     }
   ]
 }
