@@ -498,6 +498,14 @@ def daily(cfg, state):
             if src.get("require_cc") and "creative commons" not in str(info.get("license") or "").lower():
                 log(f"  skip {v['id']}: not Creative Commons licensed")
                 continue
+            if src.get("min_upload_date") and (info.get("upload_date") or "0") < src["min_upload_date"]:
+                log(f"  skip {v['id']}: uploaded before {src['min_upload_date']}")
+                continue
+            ttl = (info.get("title") or "").lower()
+            bad = [w for w in src.get("exclude_title_words", []) if w.lower() in ttl]
+            if bad:
+                log(f"  skip {v['id']}: title has '{bad[0]}'")
+                continue
             dur = info.get("duration") or 0
             if dur < min_dur or info.get("is_live") or info.get("live_status") == "is_upcoming":
                 continue
