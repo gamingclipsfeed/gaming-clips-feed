@@ -458,7 +458,8 @@ def daily(cfg, state):
     # exclusive push (e.g. GTA 6 only for a month): while active, every other source is skipped
     excl = [s for s in sources if s.get("exclusive") and TODAY <= s.get("priority_until", "9999-12-31")]
     if excl:
-        sources = excl
+        others = [s for s in sources if s not in excl]
+        sources = excl + others  # priority game searched first; others only as fallback
     if not sources:
         log("No approved creators in config.json yet — nothing to clip. Add campaign creators first.")
         return []
@@ -553,6 +554,10 @@ def daily(cfg, state):
                 per_vid_count[m["video_id"]] = c + 1
                 picks.append(m); got += 1
     backups = {g: by_game.pop(g) for g in list(priority) if g in by_game}
+    if excl:  # exclusive push: try every spare priority clip before any other game
+        for g, ms in backups.items():
+            picks.extend(m for m in ms if per_vid_count.get(m["video_id"], 0) < per_video)
+        backups = {}
     games = list(by_game)
     if priority:
         log(f"Priority push: {', '.join(priority)} -> {len(picks)} candidate(s) queued first")
