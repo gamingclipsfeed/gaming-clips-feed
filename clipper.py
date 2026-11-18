@@ -362,13 +362,16 @@ STYLES = [
 ]
 
 
-def todays_style():
-    return STYLES[TARGET_DATE.toordinal() % len(STYLES)]
+def todays_style(idx=0, cfg=None):
+    """Each clip in the weekly batch gets a different look. cfg["styles"] (names) limits the pool
+    to the winners picked in the weekly review; empty = all styles."""
+    pool = [x for x in STYLES if x["name"] in (cfg or {}).get("styles", [])] or STYLES
+    return pool[(TARGET_DATE.toordinal() + idx) % len(pool)]
 
 
-def render_short(src, out, title, captions, cfg):
+def render_short(src, out, title, captions, cfg, idx=0):
     W, H = 1080, 1920
-    st = todays_style()
+    st = todays_style(idx, cfg)
     zoom = float(st["zoom"])
     tmp = os.path.splitext(out)[0] + "_parts"
     os.makedirs(tmp, exist_ok=True)
@@ -428,7 +431,8 @@ def make_clip(src_file, meta, cfg, state):
     n = len([x for x in state["clips"] if x["date"] == TODAY]) + 1
     base = f"{TODAY}_{n:02d}_{re.sub(r'[^A-Za-z0-9]+', '-', meta['game'])[:20]}"
     out = os.path.join(READY, base + ".mp4")
-    render_short(src_file, out, title, caps, cfg)
+    style = todays_style(n, cfg)["name"]
+    render_short(src_file, out, title, caps, cfg, idx=n)
     tags = meta.get("hashtags", [])[:3] + cfg.get("default_hashtags", ["#gaming", "#shorts"]) + meta.get("hashtags", [])[3:]  # top 3 game tags first so the 5-tag cap keeps them
     desc_lines = [title, "", f"🎮 {meta['game']} | Clip from {meta['creator']}"]
     if meta.get("source_url"):
@@ -439,7 +443,7 @@ def make_clip(src_file, meta, cfg, state):
         desc_lines += ["", meta["cta"]]
     desc_lines += ["", " ".join(dict.fromkeys(tags))]
     info = {"file": os.path.basename(out), "title": title[:100], "description": "\n".join(desc_lines),
-            "tags": [t.lstrip("#") for t in tags], **meta, "date": TODAY, "posted": False}
+            "tags": [t.lstrip("#") for t in tags], **meta, "style": style, "hook": title, "date": TODAY, "posted": False}
     save_json(os.path.join(READY, base + ".json"), info)
     state["clips"].append({"date": TODAY, "file": info["file"], "game": meta["game"],
                            "video_id": meta.get("video_id"), "start": meta.get("start")})
@@ -584,7 +588,10 @@ def daily(cfg, state):
         raw = os.path.join(WORK, f"{m['video_id']}_{int(m['start'])}.mp4")
         try:
             log(f"• {m['game']} — {m['creator']} @ {int(m['start'])}s ({m['how']})")
-            end = m["start"] + clip_len
+            # A/B test clip length across the week (cfg["length_variants"]), else the fixed length
+            variants = cfg.get("length_variants") or [clip_len]
+            this_len = variants[len(made) % len(variants)]
+            end = m["start"] + this_len
             ytdlp(["-f", "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/bv*[height<=1080]+ba/b[height<=1080]/b",
                    "--download-sections", f"*{m['start']:.1f}-{end:.1f}", "--force-keyframes-at-cuts",
                    "--merge-output-format", "mp4", "-o", raw, m["url"]], timeout=1800)
@@ -593,6 +600,7 @@ def daily(cfg, state):
                 if cands:
                     raw = os.path.join(WORK, cands[0])
             meta = {k: m.get(k) for k in ("game", "creator", "hashtags", "credit_line", "video_id", "start", "hooks", "cta", "hook_first")}
+            meta["length"] = this_len
             meta["source_url"] = f"{m['url']}&t={int(m['start'])}s" if "watch?v=" in m["url"] else m["url"]
             made.append(make_clip(raw, meta, cfg, state))
             save_json(STATE_PATH, state)
