@@ -1,7 +1,7 @@
-name: Make tomorrow's clips
+name: Make this week's clips
 on:
   schedule:
-    - cron: "0 18 * * 0-4,6"   # 18:00 UTC = 20:00 Israel (winter), Sat-Thu evenings
+    - cron: "0 18 * * 6"   # 18:00 UTC = 20:00 Israel (winter), Saturday night only: makes the whole week (6 clips, Sun-Fri)
   workflow_dispatch: {}
 permissions:
   contents: write
