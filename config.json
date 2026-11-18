@@ -22,8 +22,8 @@
       "require_cc": true,
       "creator": "",
       "priority": true,
-      "priority_share": 0.75,
-      "priority_until": "2026-12-01",
+      "priority_share": 1.0,
+      "priority_until": "2026-12-18",
       "hashtags": [
         "#gta6",
         "#gtavi",
@@ -76,7 +76,8 @@
         "ue5",
         "rumor",
         "rumour"
-      ]
+      ],
+      "exclusive": true
     },
     {
       "game": "GTA 5",

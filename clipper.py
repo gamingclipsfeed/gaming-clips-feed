@@ -455,6 +455,10 @@ def cut_local(src, start, length, out):
 # ---------------------------------------------------------------- daily run
 def daily(cfg, state):
     sources = [s for s in cfg.get("sources", []) if s.get("url") and not s.get("paused")]
+    # exclusive push (e.g. GTA 6 only for a month): while active, every other source is skipped
+    excl = [s for s in sources if s.get("exclusive") and TODAY <= s.get("priority_until", "9999-12-31")]
+    if excl:
+        sources = excl
     if not sources:
         log("No approved creators in config.json yet — nothing to clip. Add campaign creators first.")
         return []
