@@ -1,5 +1,5 @@
 {
-  "clips_per_day": 6,
+  "clips_per_day": 3,
   "clip_length_seconds": 38,
   "seconds_before_peak": 12,
   "min_source_minutes": 6,
