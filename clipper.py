@@ -429,7 +429,7 @@ def make_clip(src_file, meta, cfg, state):
     base = f"{TODAY}_{n:02d}_{re.sub(r'[^A-Za-z0-9]+', '-', meta['game'])[:20]}"
     out = os.path.join(READY, base + ".mp4")
     render_short(src_file, out, title, caps, cfg)
-    tags = cfg.get("default_hashtags", ["#shorts", "#gaming"]) + meta.get("hashtags", [])
+    tags = meta.get("hashtags", [])[:3] + cfg.get("default_hashtags", ["#gaming", "#shorts"]) + meta.get("hashtags", [])[3:]  # top 3 game tags first so the 5-tag cap keeps them
     desc_lines = [title, "", f"🎮 {meta['game']} | Clip from {meta['creator']}"]
     if meta.get("source_url"):
         desc_lines.append(f"Full video: {meta['source_url']}")

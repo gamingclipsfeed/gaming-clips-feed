@@ -1,7 +1,7 @@
 {
   "clips_per_day": 5,
-  "clip_length_seconds": 22,
-  "seconds_before_peak": 6,
+  "clip_length_seconds": 15,
+  "seconds_before_peak": 3,
   "min_source_minutes": 6,
   "max_clips_per_video": 2,
   "videos_to_scan_per_creator": 5,
@@ -11,9 +11,8 @@
   "whisper_model": "small",
   "keep_posted_days": 14,
   "default_hashtags": [
-    "#shorts",
     "#gaming",
-    "#gamingclips"
+    "#shorts"
   ],
   "sources": [
     {
@@ -27,14 +26,12 @@
       "hashtags": [
         "#gta6",
         "#gtavi",
+        "#vicecity",
         "#grandtheftauto",
         "#gta6gameplay",
-        "#vicecity",
         "#leonida",
         "#gta",
-        "#rockstargames",
-        "#viral",
-        "#fyp"
+        "#rockstargames"
       ],
       "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}",
       "hooks": [
