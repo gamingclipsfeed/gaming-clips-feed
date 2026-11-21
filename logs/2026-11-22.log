@@ -1,0 +1,17 @@
+[20:33:36] ===== daily run =====
+[20:34:08] ❌ run crashed:
+Traceback (most recent call last):
+  File "/home/runner/work/gaming-clips-feed/gaming-clips-feed/clipper.py", line 859, in main
+    made += daily(cfg, state)
+            ^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/gaming-clips-feed/gaming-clips-feed/clipper.py", line 525, in daily
+    moments = loudness_moments(v["url"], v["id"], dur, k + 2, clip_len)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/gaming-clips-feed/gaming-clips-feed/clipper.py", line 176, in loudness_moments
+    ytdlp(["-f", "worstaudio[ext=m4a]/worstaudio/bestaudio", "-o", audio, url], timeout=1800)
+  File "/home/runner/work/gaming-clips-feed/gaming-clips-feed/clipper.py", line 105, in ytdlp
+    raise RuntimeError(f"command failed: yt-dlp ...\n{err[-1500:]}")
+RuntimeError: command failed: yt-dlp ...
+ERROR: unable to download video data: HTTP Error 403: Forbidden
+
+
