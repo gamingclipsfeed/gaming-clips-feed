@@ -9,35 +9,23 @@ jobs:
   clips:
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    services:
-      potoken:   # free PO-token server - helps get past YouTube's "not a bot" check
-        image: brainicism/bgutil-ytdlp-pot-provider
-        ports:
-          - 4416:4416
     env:
       TZ: Asia/Jerusalem
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - uses: denoland/setup-deno@v2
-        with: { deno-version: v2.x }
       - name: Install tools
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
-          pip install -q -U "yt-dlp[default]" bgutil-ytdlp-pot-provider faster-whisper pillow
+          pip install -q -U yt-dlp faster-whisper pillow
       - name: Make clips
-        env:
-          YT_COOKIES: ${{ secrets.YT_COOKIES }}
-        run: |
-          if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/yt_cookies.txt; export YT_COOKIES_FILE=/tmp/yt_cookies.txt; else echo "::warning::YT_COOKIES secret not set - YouTube will likely block downloads"; fi
-          python clipper.py
+        run: python clipper.py   # clips come from archive.org now - no YouTube, no cookies
       - name: Save clips to the repo
         run: |
           git config user.name "gaming-clips-bot"
           git config user.email "bot@users.noreply.github.com"
           rm -rf ready_to_post/*_parts data/work
-          rm -f /tmp/yt_cookies.txt
           git add -A ready_to_post data/state.json logs || true
           git commit -m "Clips for $(date -d tomorrow +%F)" || echo "nothing new"
           git push

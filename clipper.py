@@ -14,7 +14,7 @@ Usage:
   python clipper.py --check    check that everything is installed
   python clipper.py --test FILE.mp4   make one test Short from a local video
 """
-import json, os, re, subprocess, sys, shutil, datetime, random, traceback, math
+import json, os, re, subprocess, sys, shutil, datetime, random, traceback, math, time
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 CFG_PATH = os.path.join(BASE, "config.json")
@@ -144,6 +144,109 @@ def full_info(url):
     return json.loads(r.stdout)
 
 
+# ---------------------------------------------------------------- Internet Archive (no cookies, no login)
+import urllib.request, urllib.parse
+IA_UA = {"User-Agent": "GamingClipsFeed/1.0 (gamingclipsfeed@gmail.com)"}
+
+
+def http_json(url, timeout=60, tries=3):
+    last = None
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers=IA_UA)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read().decode("utf-8", "replace"))
+        except Exception as e:
+            last = e
+            time.sleep(3 * (i + 1))
+    raise RuntimeError(f"archive.org request failed: {last}")
+
+
+def ia_license(lic):
+    """Only licenses that allow reuse + edits on a monetized channel. Returns a label or None."""
+    lic = str(lic or "").lower()
+    if "creativecommons.org" not in lic:
+        return None
+    if "/publicdomain/" in lic:
+        return "Public Domain (CC0)"
+    if "-nc" in lic or "-nd" in lic:
+        return None  # NonCommercial / NoDerivatives - not allowed for us
+    if "/licenses/by-sa/" in lic:
+        return "Creative Commons CC BY-SA"
+    if "/licenses/by/" in lic:
+        return "Creative Commons CC BY"
+    return None
+
+
+def _ia_len(v):
+    v = str(v or "0").strip()
+    try:
+        if ":" in v:
+            parts = [float(x) for x in v.split(":")]
+            secs = 0.0
+            for x in parts:
+                secs = secs * 60 + x
+            return secs
+        return float(v)
+    except ValueError:
+        return 0.0
+
+
+def archive_videos(source, cfg):
+    """Search archive.org for openly licensed gameplay videos of one game."""
+    n = cfg.get("archive_results_per_game", 60)
+    q = f"({source['query']}) AND mediatype:movies AND licenseurl:*creativecommons*"
+    params = [("q", q), ("rows", str(n)), ("output", "json"), ("sort[]", source.get("sort", "addeddate desc"))]
+    params += [("fl[]", f) for f in ("identifier", "title", "licenseurl", "creator", "downloads", "addeddate")]
+    data = http_json("https://archive.org/advancedsearch.php?" + urllib.parse.urlencode(params))
+    out = []
+    for d in (data.get("response") or {}).get("docs") or []:
+        lab = ia_license(d.get("licenseurl"))
+        if not lab or not d.get("identifier"):
+            continue
+        cr = d.get("creator") or ""
+        if isinstance(cr, list):
+            cr = ", ".join(cr)
+        ident = d["identifier"]
+        title = d.get("title") or ""
+        if isinstance(title, list):
+            title = title[0]
+        out.append({"id": "ia_" + ident, "ident": ident, "title": title, "duration": 0,
+                    "url": f"https://archive.org/details/{ident}", "license": lab,
+                    "uploader": cr or "the creator", "views": int(d.get("downloads") or 0)})
+    log(f"  archive.org '{source['game']}': {len(out)} openly licensed video(s)")
+    return out
+
+
+def archive_info(v, cfg):
+    """Pick the best playable .mp4 in an archive.org item."""
+    md = http_json(f"https://archive.org/metadata/{urllib.parse.quote(v['ident'])}")
+    max_mb = cfg.get("archive_max_file_mb", 2500)
+    best = None
+    for f in md.get("files") or []:
+        name = f.get("name") or ""
+        if not name.lower().endswith((".mp4", ".m4v", ".mkv", ".webm", ".mov")):
+            continue
+        size = int(f.get("size") or 0)
+        if size and size > max_mb * 1024 * 1024:
+            continue
+        h = int(f.get("height") or 0)
+        dur = _ia_len(f.get("length"))
+        score = (name.lower().endswith(".mp4"), min(h, 1080), f.get("source") == "original", -size)
+        if best is None or score > best[0]:
+            best = (score, name, dur, h)
+    if not best:
+        return None
+    _, name, dur, h = best
+    if h and h < 480:
+        return None
+    url = f"https://archive.org/download/{urllib.parse.quote(v['ident'])}/{urllib.parse.quote(name)}"
+    return {"media": url, "duration": dur, "height": h}
+
+
+IA_IN = ["-reconnect", "1", "-reconnect_streamed", "1", "-reconnect_delay_max", "10", "-rw_timeout", "60000000"]
+
+
 # ---------------------------------------------------------------- finding moments
 def peaks_from_series(series, duration, k, clip_len, min_gap):
     """series: list of (time_sec, score). Returns up to k peak times, spaced apart."""
@@ -169,10 +272,15 @@ def heatmap_moments(info, k, clip_len):
     return peaks_from_series(series, info.get("duration") or 0, k, clip_len, min_gap=max(90, clip_len * 2))
 
 
-def loudness_moments(url, vid, duration, k, clip_len):
-    """Fallback when YouTube has no 'most replayed' data: find the loudest stretches."""
+def loudness_moments(url, vid, duration, k, clip_len, media=None):
+    """Find the loudest stretches (big action moments). media = direct file URL (archive.org)."""
     audio = os.path.join(WORK, f"{vid}_audio.m4a")
-    if not os.path.exists(audio):
+    if media:
+        run([FFMPEG, "-y", *IA_IN, "-i", media, "-vn", "-ac", "1", "-ar", "16000", "-c:a", "aac", "-b:a", "48k", audio],
+            timeout=2400, check=False)
+        if not os.path.exists(audio):
+            return []
+    elif not os.path.exists(audio):
         ytdlp(["-f", "worstaudio[ext=m4a]/worstaudio/bestaudio", "-o", audio, url], timeout=1800)
     r = run([FFMPEG, "-i", audio, "-af",
              "aresample=8000,asetnsamples=n=8000,astats=metadata=1:reset=1,"
@@ -458,7 +566,7 @@ def cut_local(src, start, length, out):
 
 # ---------------------------------------------------------------- daily run
 def daily(cfg, state):
-    sources = [s for s in cfg.get("sources", []) if s.get("url") and not s.get("paused")]
+    sources = [s for s in cfg.get("sources", []) if (s.get("url") or s.get("query")) and not s.get("paused")]
     # exclusive push (e.g. GTA 6 only for a month): while active, every other source is skipped
     excl = [s for s in sources if s.get("exclusive") and TODAY <= s.get("priority_until", "9999-12-31")]
     if excl:
@@ -488,6 +596,52 @@ def daily(cfg, state):
     priority = {src["game"]: src.get("priority_share", 0.5) for src in sources if _active(src)}
     for src in sources:
         game = src.get("game", "Gaming")
+        if src.get("provider") == "archive":
+            try:
+                vids = archive_videos(src, cfg)
+            except Exception as e:
+                log(f"⚠️ archive.org search failed for {game}: {str(e)[:300]}")
+                continue
+            random.shuffle(vids)
+            checked = 0
+            for v in vids:
+                if checked >= cfg.get("archive_items_to_check", 6):
+                    break
+                ttl = (v["title"] or "").lower()
+                bad = [w for w in src.get("exclude_title_words", []) if w.lower() in ttl]
+                if bad:
+                    continue
+                used = [c for c in state["clips"] if c.get("video_id") == v["id"]]
+                if len(used) >= per_video:
+                    continue
+                try:
+                    info = archive_info(v, cfg)
+                except Exception as e:
+                    log(f"  skip {v['ident']}: {str(e)[:200]}")
+                    continue
+                if not info or (info["duration"] and info["duration"] < min_dur):
+                    continue
+                checked += 1
+                k = per_video - len(used)
+                moments = loudness_moments(v["url"], v["id"], info["duration"], k + 2, clip_len, media=info["media"])
+                used_starts = [c.get("start", -999) for c in used]
+                for t, score in moments:
+                    start = max(0, t - lead)
+                    if any(abs(start - u) < clip_len * 2 for u in used_starts):
+                        continue
+                    by_game.setdefault(game, []).append({
+                        "video_id": v["id"], "url": v["url"], "media": info["media"], "start": round(start, 1),
+                        "score": score, "views": v.get("views", 0), "how": "loudest", "game": game,
+                        "creator": v["uploader"], "hashtags": src.get("hashtags", []),
+                        "hooks": src.get("hooks", []), "cta": src.get("cta", ""), "hook_first": src.get("hook_first", False),
+                        "credit_line": (src.get("credit_line") or "🎥 Gameplay by {uploader} ({license}) — {url}").format(
+                            uploader=v["uploader"], url=v["url"], license=v["license"]),
+                        "source_title": v["title"]})
+                if len(by_game.get(game, [])) >= (need * 3 if game in priority else 2):
+                    break
+            if sum(len(x) for x in by_game.values()) >= need * 2:
+                break
+            continue
         try:
             vids = recent_videos(src, cfg)
         except Exception as e:
@@ -592,7 +746,12 @@ def daily(cfg, state):
             variants = cfg.get("length_variants") or [clip_len]
             this_len = variants[len(made) % len(variants)]
             end = m["start"] + this_len
-            ytdlp(["-f", "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/bv*[height<=1080]+ba/b[height<=1080]/b",
+            if m.get("media"):  # archive.org: cut straight from the open file, no YouTube
+                run([FFMPEG, "-y", "-ss", f"{m['start']:.2f}", *IA_IN, "-i", m["media"], "-t", f"{this_len:.2f}",
+                     "-vf", "scale=-2:'min(1080,ih)'", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+                     "-c:a", "aac", "-b:a", "128k", raw], timeout=1800)
+            else:
+              ytdlp(["-f", "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/bv*[height<=1080]+ba/b[height<=1080]/b",
                    "--download-sections", f"*{m['start']:.1f}-{end:.1f}", "--force-keyframes-at-cuts",
                    "--merge-output-format", "mp4", "-o", raw, m["url"]], timeout=1800)
             if not os.path.exists(raw):

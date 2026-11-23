@@ -17,8 +17,6 @@
   "sources": [
     {
       "game": "GTA 6",
-      "url": "https://www.youtube.com/results?search_query=gta+6+gameplay&sp=CAISAjAB",
-      "require_cc": true,
       "creator": "",
       "priority": true,
       "priority_share": 1.0,
@@ -33,7 +31,7 @@
         "#gta",
         "#rockstargames"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}",
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "hooks": [
         "GTA 6 players will NOT believe this 😳",
         "Vice City just broke the internet 🌴🔥",
@@ -52,7 +50,6 @@
       ],
       "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
       "hook_first": true,
-      "min_upload_date": "20261119",
       "exclude_title_words": [
         "didn't show",
         "didnt show",
@@ -80,102 +77,103 @@
         "rumor",
         "rumour"
       ],
-      "exclusive": true
+      "provider": "archive",
+      "query": "title:(\"gta 6\" OR \"gta vi\" OR \"grand theft auto vi\" OR \"gta6\")"
     },
     {
       "game": "GTA 5",
-      "url": "https://www.youtube.com/results?search_query=gta+5+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#gta5",
         "#gta",
         "#gtaonline"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"gta 5\" OR \"gta v\" OR \"grand theft auto v\" OR \"gta online\" OR \"gta5\")"
     },
     {
       "game": "Call of Duty",
-      "url": "https://www.youtube.com/results?search_query=call+of+duty+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#callofduty",
         "#cod",
         "#warzone"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"call of duty\" OR \"warzone\" OR \"modern warfare\" OR \"black ops\")"
     },
     {
       "game": "NBA 2K",
-      "url": "https://www.youtube.com/results?search_query=nba+2k+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#nba2k",
         "#2k",
         "#basketball"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"nba 2k\" OR \"2k26\" OR \"2k25\" OR \"2k24\" OR \"nba2k\")"
     },
     {
       "game": "EA FC",
-      "url": "https://www.youtube.com/results?search_query=ea+fc+fifa+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#eafc",
         "#fifa",
         "#football"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"ea fc\" OR \"fc 26\" OR \"fc 25\" OR \"fifa 23\" OR \"fifa 22\" OR \"fifa\")"
     },
     {
       "game": "Madden",
-      "url": "https://www.youtube.com/results?search_query=madden+nfl+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#madden",
         "#nfl",
         "#football"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"madden\")"
     },
     {
       "game": "Halo",
-      "url": "https://www.youtube.com/results?search_query=halo+infinite+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#halo",
         "#haloinfinite",
         "#xbox"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"halo infinite\" OR \"halo 5\" OR \"halo mcc\" OR \"halo\")"
     },
     {
       "game": "Forza",
-      "url": "https://www.youtube.com/results?search_query=forza+horizon+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#forza",
         "#forzahorizon",
         "#racing"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"forza horizon\" OR \"forza motorsport\" OR \"forza\")"
     },
     {
       "game": "Assassin's Creed",
-      "url": "https://www.youtube.com/results?search_query=assassins+creed+gameplay&sp=EgIwAQ%3D%3D",
-      "require_cc": true,
       "creator": "",
       "hashtags": [
         "#assassinscreed",
         "#ubisoft"
       ],
-      "credit_line": "🎥 Gameplay by {uploader} (Creative Commons CC BY) — {url}"
+      "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
+      "provider": "archive",
+      "query": "title:(\"assassins creed\" OR \"assassin's creed\")"
     }
   ],
   "_example_source_copy_this_format": {
@@ -227,5 +225,9 @@
     20
   ],
   "styles": [],
-  "_experiment_notes": "Weekly review edits length_variants, styles (names from STYLES in clipper.py; [] = all) and GTA 6 hooks to keep winners and drop losers."
+  "_experiment_notes": "Weekly review edits length_variants, styles (names from STYLES in clipper.py; [] = all) and GTA 6 hooks to keep winners and drop losers.",
+  "archive_results_per_game": 60,
+  "archive_items_to_check": 6,
+  "archive_max_file_mb": 2500,
+  "_source_note": "Nov 24 2026: switched all sources from YouTube to Internet Archive (archive.org) - no cookies, no login. Only CC BY, CC BY-SA and CC0 videos are used (NonCommercial/NoDerivatives are skipped)."
 }
