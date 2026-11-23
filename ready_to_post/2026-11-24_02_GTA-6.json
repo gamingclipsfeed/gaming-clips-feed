@@ -1,7 +1,7 @@
 {
   "file": "2026-11-24_02_GTA-6.mp4",
   "title": "GTA 6 players will NOT believe this 😳",
-  "description": "GTA 6 players will NOT believe this 😳\n\n🎮 GTA 6 | Clip from Rockshit\nFull video: https://archive.org/details/gta6_20260821\n🎥 Gameplay by Rockshit (Public Domain (CC0)) — https://archive.org/details/gta6_20260821\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
+  "description": "GTA 6 players will NOT believe this 😳\n\n🎮 GTA 6 | Clip from KaiCenat\nFull video: https://clips.twitch.tv/ExquisiteInnocentGaragePoooound-mLDj-ot7Fg9JJjLA\n🎥 Clip from KaiCenat on Twitch — twitch.tv/kaicenat\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
   "tags": [
     "gta6",
     "gtavi",
@@ -15,7 +15,7 @@
     "rockstargames"
   ],
   "game": "GTA 6",
-  "creator": "Rockshit",
+  "creator": "KaiCenat",
   "hashtags": [
     "#gta6",
     "#gtavi",
@@ -26,9 +26,9 @@
     "#gta",
     "#rockstargames"
   ],
-  "credit_line": "🎥 Gameplay by Rockshit (Public Domain (CC0)) — https://archive.org/details/gta6_20260821",
-  "video_id": "ia_gta6_20260821",
-  "start": 326.0,
+  "credit_line": "🎥 Clip from KaiCenat on Twitch — twitch.tv/kaicenat",
+  "video_id": "tw_ExquisiteInnocentGaragePoooound-mLDj-ot7Fg9JJjLA",
+  "start": 0.0,
   "hooks": [
     "GTA 6 players will NOT believe this 😳",
     "Vice City just broke the internet 🌴🔥",
@@ -48,10 +48,9 @@
   "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
   "hook_first": true,
   "length": 15,
-  "source_url": "https://archive.org/details/gta6_20260821",
-  "style": "Purple Pop",
+  "source_url": "https://clips.twitch.tv/ExquisiteInnocentGaragePoooound-mLDj-ot7Fg9JJjLA",
+  "style": "Full Screen",
   "hook": "GTA 6 players will NOT believe this 😳",
   "date": "2026-11-24",
-  "posted": true,
-  "skipped_reason": "rejected on review: not clean GTA 6 gameplay (crypto overlay / Twitter reaction / actually GTA 5)"
+  "posted": false
 }

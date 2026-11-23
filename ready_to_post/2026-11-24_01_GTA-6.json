@@ -1,7 +1,7 @@
 {
   "file": "2026-11-24_01_GTA-6.mp4",
-  "title": "Rockstar really put THIS in GTA 6?! 🤯",
-  "description": "Rockstar really put THIS in GTA 6?! 🤯\n\n🎮 GTA 6 | Clip from Rockshit\nFull video: https://archive.org/details/gta6_20260821\n🎥 Gameplay by Rockshit (Public Domain (CC0)) — https://archive.org/details/gta6_20260821\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
+  "title": "This GTA 6 chase went sideways 💀",
+  "description": "This GTA 6 chase went sideways 💀\n\n🎮 GTA 6 | Clip from ohnePixel\nFull video: https://clips.twitch.tv/PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs\n🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
   "tags": [
     "gta6",
     "gtavi",
@@ -15,7 +15,7 @@
     "rockstargames"
   ],
   "game": "GTA 6",
-  "creator": "Rockshit",
+  "creator": "ohnePixel",
   "hashtags": [
     "#gta6",
     "#gtavi",
@@ -26,9 +26,9 @@
     "#gta",
     "#rockstargames"
   ],
-  "credit_line": "🎥 Gameplay by Rockshit (Public Domain (CC0)) — https://archive.org/details/gta6_20260821",
-  "video_id": "ia_gta6_20260821",
-  "start": 34.0,
+  "credit_line": "🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel",
+  "video_id": "tw_PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs",
+  "start": 29.0,
   "hooks": [
     "GTA 6 players will NOT believe this 😳",
     "Vice City just broke the internet 🌴🔥",
@@ -48,10 +48,9 @@
   "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
   "hook_first": true,
   "length": 12,
-  "source_url": "https://archive.org/details/gta6_20260821",
-  "style": "Big Zoom",
-  "hook": "Rockstar really put THIS in GTA 6?! 🤯",
+  "source_url": "https://clips.twitch.tv/PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs",
+  "style": "Full Screen",
+  "hook": "This GTA 6 chase went sideways 💀",
   "date": "2026-11-24",
-  "posted": true,
-  "skipped_reason": "rejected on review: not clean GTA 6 gameplay (crypto overlay / Twitter reaction / actually GTA 5)"
+  "posted": false
 }

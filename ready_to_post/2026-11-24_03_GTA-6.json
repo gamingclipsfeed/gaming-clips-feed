@@ -1,7 +1,7 @@
 {
   "file": "2026-11-24_03_GTA-6.mp4",
-  "title": "Rockstar really put THIS in GTA 6?! 🤯",
-  "description": "Rockstar really put THIS in GTA 6?! 🤯\n\n🎮 GTA 6 | Clip from Blueryai Live\nFull video: https://archive.org/details/httpswww.youtube.comwatchvu4gzceols8q\n🎥 Gameplay by Blueryai Live (Public Domain (CC0)) — https://archive.org/details/httpswww.youtube.comwatchvu4gzceols8q\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
+  "title": "POV: your first hour in Vice City 🌴",
+  "description": "POV: your first hour in Vice City 🌴\n\n🎮 GTA 6 | Clip from ohnePixel\nFull video: https://clips.twitch.tv/EsteemedAlertBoarTTours-qTa7AtR3giDjQF5-\n🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
   "tags": [
     "gta6",
     "gtavi",
@@ -15,7 +15,7 @@
     "rockstargames"
   ],
   "game": "GTA 6",
-  "creator": "Blueryai Live",
+  "creator": "ohnePixel",
   "hashtags": [
     "#gta6",
     "#gtavi",
@@ -26,9 +26,9 @@
     "#gta",
     "#rockstargames"
   ],
-  "credit_line": "🎥 Gameplay by Blueryai Live (Public Domain (CC0)) — https://archive.org/details/httpswww.youtube.comwatchvu4gzceols8q",
-  "video_id": "ia_httpswww.youtube.comwatchvu4gzceols8q",
-  "start": 222.0,
+  "credit_line": "🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel",
+  "video_id": "tw_EsteemedAlertBoarTTours-qTa7AtR3giDjQF5-",
+  "start": 0.0,
   "hooks": [
     "GTA 6 players will NOT believe this 😳",
     "Vice City just broke the internet 🌴🔥",
@@ -48,10 +48,9 @@
   "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
   "hook_first": true,
   "length": 20,
-  "source_url": "https://archive.org/details/httpswww.youtube.comwatchvu4gzceols8q",
-  "style": "Arcade",
-  "hook": "Rockstar really put THIS in GTA 6?! 🤯",
+  "source_url": "https://clips.twitch.tv/EsteemedAlertBoarTTours-qTa7AtR3giDjQF5-",
+  "style": "Full Screen",
+  "hook": "POV: your first hour in Vice City 🌴",
   "date": "2026-11-24",
-  "posted": true,
-  "skipped_reason": "rejected on review: not clean GTA 6 gameplay (crypto overlay / Twitter reaction / actually GTA 5)"
+  "posted": false
 }

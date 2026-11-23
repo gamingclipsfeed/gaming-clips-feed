@@ -1,7 +1,7 @@
 {
   "file": "2026-11-24_05_GTA-6.mp4",
-  "title": "Vice City just broke the internet 🌴🔥",
-  "description": "Vice City just broke the internet 🌴🔥\n\n🎮 GTA 6 | Clip from Vinewood Public Access\nFull video: https://archive.org/details/youtube-BpMxQrRatWA\n🎥 Gameplay by Vinewood Public Access (Creative Commons CC BY) — https://archive.org/details/youtube-BpMxQrRatWA\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
+  "title": "Wait for the ending… GTA 6 💀",
+  "description": "Wait for the ending… GTA 6 💀\n\n🎮 GTA 6 | Clip from IShowSpeed\nFull video: https://clips.twitch.tv/ViscousStormySquirrelDancingBanana-2gkXgAHz-CwpC3GO\n🎥 Clip from IShowSpeed on Twitch — twitch.tv/ishowspeed\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
   "tags": [
     "gta6",
     "gtavi",
@@ -15,7 +15,7 @@
     "rockstargames"
   ],
   "game": "GTA 6",
-  "creator": "Vinewood Public Access",
+  "creator": "IShowSpeed",
   "hashtags": [
     "#gta6",
     "#gtavi",
@@ -26,9 +26,9 @@
     "#gta",
     "#rockstargames"
   ],
-  "credit_line": "🎥 Gameplay by Vinewood Public Access (Creative Commons CC BY) — https://archive.org/details/youtube-BpMxQrRatWA",
-  "video_id": "ia_youtube-BpMxQrRatWA",
-  "start": 227.0,
+  "credit_line": "🎥 Clip from IShowSpeed on Twitch — twitch.tv/ishowspeed",
+  "video_id": "tw_ViscousStormySquirrelDancingBanana-2gkXgAHz-CwpC3GO",
+  "start": 3.0,
   "hooks": [
     "GTA 6 players will NOT believe this 😳",
     "Vice City just broke the internet 🌴🔥",
@@ -48,10 +48,9 @@
   "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
   "hook_first": true,
   "length": 15,
-  "source_url": "https://archive.org/details/youtube-BpMxQrRatWA",
-  "style": "Neon Blur",
-  "hook": "Vice City just broke the internet 🌴🔥",
+  "source_url": "https://clips.twitch.tv/ViscousStormySquirrelDancingBanana-2gkXgAHz-CwpC3GO",
+  "style": "Full Screen",
+  "hook": "Wait for the ending… GTA 6 💀",
   "date": "2026-11-24",
-  "posted": true,
-  "skipped_reason": "rejected on review: not clean GTA 6 gameplay (crypto overlay / Twitter reaction / actually GTA 5)"
+  "posted": false
 }
