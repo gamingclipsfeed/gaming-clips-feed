@@ -52,5 +52,6 @@
   "style": "Full Screen",
   "hook": "This GTA 6 chase went sideways 💀",
   "date": "2026-11-24",
-  "posted": false
+  "posted": true,
+  "skipped_reason": "rejected on review: mostly inventory menu, hook didn't match"
 }

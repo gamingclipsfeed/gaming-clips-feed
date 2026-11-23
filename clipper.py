@@ -712,8 +712,19 @@ def visual_pg_check(path, cfg, frames=8):
     return ""
 
 
+def motion_score(path):
+    """Median frame-to-frame change. Static menus/facecam talk score ~0-0.5, real gameplay 1.5+."""
+    r = run([FFMPEG, "-i", path, "-vf", "scale=270:-2,signalstats,metadata=print:key=lavfi.signalstats.YDIF",
+             "-an", "-f", "null", "-"], check=False, timeout=300)
+    x = sorted(float(v) for v in re.findall(r"YDIF=([0-9.]+)", r.stderr or ""))
+    return x[len(x) // 2] if x else 0.0
+
+
 # ---------------------------------------------------------------- one clip
 def make_clip(src_file, meta, cfg, state):
+    ms = motion_score(src_file)
+    if ms < cfg.get("min_motion", 1.2):
+        raise NotPG(f"not enough gameplay on screen (motion {ms:.2f}) - menu/facecam/talking")
     if cfg.get("keep_it_pg", True):
         bad = visual_pg_check(src_file, cfg)
         if bad:

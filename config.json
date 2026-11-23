@@ -42,10 +42,7 @@
         "Nobody's talking about this GTA 6 detail 👀",
         "GTA 6 physics are actually insane 🤯",
         "Wait… GTA 6 lets you do THIS? 😳",
-        "This GTA 6 chase went sideways 💀",
         "Rate this GTA 6 moment 1–10 👇",
-        "POV: your first hour in Vice City 🌴",
-        "GTA 6 NPCs are way too smart 🤯",
         "Rockstar hid THIS in GTA 6 👀"
       ],
       "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
@@ -147,10 +144,7 @@
         "Nobody's talking about this GTA 6 detail 👀",
         "GTA 6 physics are actually insane 🤯",
         "Wait… GTA 6 lets you do THIS? 😳",
-        "This GTA 6 chase went sideways 💀",
         "Rate this GTA 6 moment 1–10 👇",
-        "POV: your first hour in Vice City 🌴",
-        "GTA 6 NPCs are way too smart 🤯",
         "Rockstar hid THIS in GTA 6 👀"
       ],
       "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
@@ -562,7 +556,7 @@
   },
   "_edit_note": "Nov 24 2026 (Shraga): no slow-mo replay, almost no on-screen text - video fills the frame. Only the short hook title stays.",
   "twitch_period": "LAST_WEEK",
-  "twitch_clips_per_game": 40,
+  "twitch_clips_per_game": 100,
   "twitch_min_height": 720,
   "twitch_languages": [
     "en"
@@ -617,5 +611,6 @@
   ],
   "nsfw_threshold": 0.35,
   "nsfw_soft_frames": 2,
-  "_pg_note": "Nov 24 2026 (Shraga): doesn't need to be PG-13, just normal content that won't be removed on IG/TikTok/YouTube. ZERO nudity or sexual content, no slurs/hate, no self-harm, no real-life violence/drugs. Game violence and normal swearing are fine. NudeNet frame check runs on every clip, GTA Twitch clips need an action word in the title, and every clip must pass Claude's own frame-by-frame review before it is scheduled."
+  "_pg_note": "Nov 24 2026 (Shraga): doesn't need to be PG-13, just normal content that won't be removed on IG/TikTok/YouTube. ZERO nudity or sexual content, no slurs/hate, no self-harm, no real-life violence/drugs. Game violence and normal swearing are fine. NudeNet frame check runs on every clip, GTA Twitch clips need an action word in the title, and every clip must pass Claude's own frame-by-frame review before it is scheduled.",
+  "min_motion": 1.2
 }

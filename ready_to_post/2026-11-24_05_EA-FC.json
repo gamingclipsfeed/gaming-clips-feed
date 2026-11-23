@@ -27,5 +27,6 @@
   "style": "Full Screen",
   "hook": "EA FC players will NOT believe this 😳",
   "date": "2026-11-24",
-  "posted": false
+  "posted": true,
+  "skipped_reason": "rejected on review: German menus, not gameplay"
 }

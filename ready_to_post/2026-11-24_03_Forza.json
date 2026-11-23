@@ -27,5 +27,6 @@
   "style": "Full Screen",
   "hook": "Forza players will NOT believe this 😳",
   "date": "2026-11-24",
-  "posted": false
+  "posted": true,
+  "skipped_reason": "rejected on review: static car, streamer talking - not gameplay"
 }
