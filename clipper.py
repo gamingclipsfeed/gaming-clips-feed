@@ -221,6 +221,12 @@ def archive_videos(source, cfg):
 def archive_info(v, cfg):
     """Pick the best playable .mp4 in an archive.org item."""
     md = http_json(f"https://archive.org/metadata/{urllib.parse.quote(v['ident'])}")
+    meta = md.get("metadata") or {}
+    blob = " ".join(str(meta.get(k) or "") for k in ("title", "description", "subject")).lower()
+    bad = [w for w in cfg.get("archive_block_words", []) if w.lower() in blob]
+    if bad:
+        log(f"  skip {v['ident']}: looks like '{bad[0]}' (not clean gameplay)")
+        return None
     max_mb = cfg.get("archive_max_file_mb", 2500)
     best = None
     for f in md.get("files") or []:

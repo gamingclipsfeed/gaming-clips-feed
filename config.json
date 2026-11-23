@@ -78,7 +78,9 @@
         "rumour"
       ],
       "provider": "archive",
-      "query": "title:(\"gta 6\" OR \"gta vi\" OR \"grand theft auto vi\" OR \"gta6\")"
+      "query": "title:(\"gta 6\" OR \"gta vi\" OR \"grand theft auto vi\" OR \"gta6\")",
+      "paused": true,
+      "_paused_note": "Nov 24 2026: archive.org has no clean GTA 6 gameplay yet (first batch was crypto-scam streams, Twitter reactions and GTA 5 footage). Re-enable once real CC GTA 6 gameplay shows up."
     },
     {
       "game": "GTA 5",
@@ -90,7 +92,12 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"gta 5\" OR \"gta v\" OR \"grand theft auto v\" OR \"gta online\" OR \"gta5\")"
+      "query": "title:(\"gta 5\" OR \"gta v\" OR \"grand theft auto v\" OR \"gta online\" OR \"gta5\")",
+      "exclude_title_words": [
+        "gta 6",
+        "gta vi",
+        "gta6"
+      ]
     },
     {
       "game": "Call of Duty",
@@ -229,5 +236,40 @@
   "archive_results_per_game": 60,
   "archive_items_to_check": 6,
   "archive_max_file_mb": 2500,
-  "_source_note": "Nov 24 2026: switched all sources from YouTube to Internet Archive (archive.org) - no cookies, no login. Only CC BY, CC BY-SA and CC0 videos are used (NonCommercial/NoDerivatives are skipped)."
+  "_source_note": "Nov 24 2026: switched all sources from YouTube to Internet Archive (archive.org) - no cookies, no login. Only CC BY, CC BY-SA and CC0 videos are used (NonCommercial/NoDerivatives are skipped).",
+  "archive_block_words": [
+    "solana",
+    "crypto",
+    "bitcoin",
+    "nft",
+    "token",
+    "airdrop",
+    "giveaway",
+    "$",
+    "casino",
+    "gambling",
+    "twitter",
+    "reaction",
+    "react ",
+    "reacts",
+    "livestream",
+    "live stream",
+    "stream highlights",
+    "podcast",
+    "news",
+    "leak",
+    "trailer",
+    "concept",
+    "fan made",
+    "fanmade",
+    "mod menu",
+    "modded",
+    "fake",
+    "scam",
+    "telegram",
+    "discord.gg",
+    "free robux",
+    "w/ ",
+    "ft."
+  ]
 }
