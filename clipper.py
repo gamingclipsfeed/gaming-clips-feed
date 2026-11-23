@@ -759,11 +759,16 @@ def daily(cfg, state):
             min_h = cfg.get("twitch_min_height", 720)
             langs = cfg.get("twitch_languages", ["en"])
             minv = cfg.get("twitch_min_views", 50)
+            langs = [l.lower() for l in langs]
+            why = {}
             for v in sorted(vids, key=lambda x: -x["views"]):
                 ttl = v["title"].lower()
-                if any(w.lower() in ttl for w in src.get("exclude_title_words", []) + cfg.get("archive_block_words", [])):
-                    continue
-                if v["height"] < min_h or (langs and v["lang"] not in langs) or v["views"] < minv or v["duration"] < 8:
+                blk = [w for w in src.get("exclude_title_words", []) + cfg.get("twitch_block_words", []) if w.lower() in ttl]
+                r = ("title" if blk else "height" if v["height"] and v["height"] < min_h
+                     else "lang" if langs and v["lang"].lower() not in langs else "views" if v["views"] < minv
+                     else "short" if v["duration"] < 8 else "")
+                if r:
+                    why[r] = why.get(r, 0) + 1
                     continue
                 if any(c.get("video_id") == v["id"] for c in state["clips"]):
                     continue
@@ -776,6 +781,7 @@ def daily(cfg, state):
                     "source_title": v["title"]})
                 if len(by_game.get(game, [])) >= (need * 3 if game in priority else 3):
                     break
+            log(f"  twitch {game}: {len(by_game.get(game, []))} usable, rejected {why}")
             if sum(len(x) for x in by_game.values()) >= need * 3:
                 break
             continue

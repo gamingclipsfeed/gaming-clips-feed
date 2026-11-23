@@ -491,5 +491,21 @@
   "twitch_languages": [
     "en"
   ],
-  "twitch_min_views": 50
+  "twitch_min_views": 50,
+  "twitch_block_words": [
+    "solana",
+    "crypto",
+    "bitcoin",
+    "nft",
+    "airdrop",
+    "giveaway",
+    "casino",
+    "gambling",
+    "scam",
+    "telegram",
+    "sub goal",
+    "subathon",
+    "nsfw",
+    "drunk"
+  ]
 }
