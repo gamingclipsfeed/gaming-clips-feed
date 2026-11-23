@@ -253,6 +253,52 @@ def archive_info(v, cfg):
 IA_IN = ["-reconnect", "1", "-reconnect_streamed", "1", "-reconnect_delay_max", "10", "-rw_timeout", "60000000"]
 
 
+# ---------------------------------------------------------------- Twitch (real players, modern HD gameplay, no login)
+TW_GQL = "https://gql.twitch.tv/gql"
+TW_CID = "kimne78kx3ncx6brgo4mv6wki5h1ko"  # Twitch's public web client id (what twitch.tv itself uses)
+
+
+def twitch_clips(source, cfg):
+    """Most-viewed recent clips for a game category on Twitch."""
+    period = source.get("period", cfg.get("twitch_period", "LAST_WEEK"))
+    out = []
+    for name in source.get("twitch_games", []):
+        q = ('query($n:String!,$p:ClipsPeriod!){game(name:$n){clips(first:%d,criteria:{period:$p,sort:VIEWS_DESC})'
+             '{edges{node{slug title viewCount durationSeconds language broadcaster{displayName login}'
+             ' videoQualities{quality frameRate}}}}}}' % cfg.get("twitch_clips_per_game", 40))
+        body = json.dumps({"query": q, "variables": {"n": name, "p": period}}).encode()
+        req = urllib.request.Request(TW_GQL, data=body, headers={"Client-ID": TW_CID, "Content-Type": "application/json", **IA_UA})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                data = json.loads(r.read().decode())
+        except Exception as e:
+            log(f"  twitch '{name}': {str(e)[:200]}")
+            continue
+        g = ((data.get("data") or {}).get("game") or {})
+        edges = ((g.get("clips") or {}).get("edges")) or []
+        for e in edges:
+            n = e.get("node") or {}
+            qs = [int(re.sub(r"\D", "", str(x.get("quality") or "0")) or 0) for x in n.get("videoQualities") or []]
+            b = n.get("broadcaster") or {}
+            if not n.get("slug") or not b.get("login"):
+                continue
+            out.append({"id": "tw_" + n["slug"], "slug": n["slug"], "title": n.get("title") or "",
+                        "views": int(n.get("viewCount") or 0), "duration": float(n.get("durationSeconds") or 0),
+                        "lang": n.get("language") or "", "height": max(qs or [0]),
+                        "uploader": b.get("displayName") or b["login"], "login": b["login"],
+                        "url": f"https://clips.twitch.tv/{n['slug']}"})
+        log(f"  twitch '{name}': {len(edges)} clip(s)")
+    return out
+
+
+def ytdlp_plain(args, timeout=900):
+    cmd = [sys.executable, "-m", "yt_dlp", "--no-warnings", "--ffmpeg-location", FFMPEG] + args
+    r = run(cmd, timeout=timeout, check=False)
+    if r.returncode != 0:
+        raise RuntimeError(f"yt-dlp failed: {(r.stderr or '')[-600:]}")
+    return r
+
+
 # ---------------------------------------------------------------- finding moments
 def peaks_from_series(series, duration, k, clip_len, min_gap):
     """series: list of (time_sec, score). Returns up to k peak times, spaced apart."""
@@ -704,6 +750,35 @@ def daily(cfg, state):
     priority = {src["game"]: src.get("priority_share", 0.5) for src in sources if _active(src)}
     for src in sources:
         game = src.get("game", "Gaming")
+        if src.get("provider") == "twitch":
+            try:
+                vids = twitch_clips(src, cfg)
+            except Exception as e:
+                log(f"⚠️ twitch failed for {game}: {str(e)[:300]}")
+                continue
+            min_h = cfg.get("twitch_min_height", 720)
+            langs = cfg.get("twitch_languages", ["en"])
+            minv = cfg.get("twitch_min_views", 50)
+            for v in sorted(vids, key=lambda x: -x["views"]):
+                ttl = v["title"].lower()
+                if any(w.lower() in ttl for w in src.get("exclude_title_words", []) + cfg.get("archive_block_words", [])):
+                    continue
+                if v["height"] < min_h or (langs and v["lang"] not in langs) or v["views"] < minv or v["duration"] < 8:
+                    continue
+                if any(c.get("video_id") == v["id"] for c in state["clips"]):
+                    continue
+                by_game.setdefault(game, []).append({
+                    "video_id": v["id"], "url": v["url"], "twitch": True, "start": 0.0, "clip_dur": v["duration"],
+                    "score": v["views"], "views": v["views"], "how": "twitch top clip", "game": game,
+                    "creator": v["uploader"], "hashtags": src.get("hashtags", []),
+                    "hooks": src.get("hooks", []), "cta": src.get("cta", ""), "hook_first": src.get("hook_first", False),
+                    "credit_line": f"🎥 Clip from {v['uploader']} on Twitch — twitch.tv/{v['login']}",
+                    "source_title": v["title"]})
+                if len(by_game.get(game, [])) >= (need * 3 if game in priority else 3):
+                    break
+            if sum(len(x) for x in by_game.values()) >= need * 3:
+                break
+            continue
         if src.get("provider") == "archive":
             try:
                 vids = archive_videos(src, cfg)
@@ -784,7 +859,11 @@ def daily(cfg, state):
             moments = heatmap_moments(info, k + 2, clip_len)
             how = "most-replayed"
             if not moments:
-                moments = loudness_moments(v["url"], v["id"], dur, k + 2, clip_len)
+                try:
+                    moments = loudness_moments(v["url"], v["id"], dur, k + 2, clip_len)
+                except Exception as e:
+                    log(f"  skip {v['id']}: {str(e)[:200]}")
+                    continue
                 how = "loudest"
             used_starts = [c.get("start", -999) for c in used]
             for t, score in moments:
@@ -854,7 +933,24 @@ def daily(cfg, state):
             variants = cfg.get("length_variants") or [clip_len]
             this_len = variants[len(made) % len(variants)]
             end = m["start"] + this_len
-            if m.get("media"):  # archive.org: cut straight from the open file, no YouTube
+            if m.get("twitch"):  # Twitch clip = already the highlight; grab it and trim to length
+                full = raw[:-4] + "_full.mp4"
+                ytdlp_plain(["-f", "best[height<=1080]/best", "-o", full, m["url"]])
+                d = video_duration(full) or m.get("clip_dur") or this_len
+                st0 = 0.0
+                if d > this_len:  # line the loudest moment up with the zoom/flash at seconds_before_peak
+                    rr = run([FFMPEG, "-i", full, "-af", "aresample=8000,asetnsamples=n=4000,astats=metadata=1:reset=1,"
+                              "ametadata=print:key=lavfi.astats.Overall.RMS_level", "-f", "null", "-"], check=False, timeout=300)
+                    lv = [(-90.0 if x == "-inf" else float(x)) for x in re.findall(r"RMS_level=(-?[\d.]+|-inf)", rr.stderr or "")]
+                    if lv:
+                        pk = max(range(len(lv)), key=lambda i: sum(lv[i:i + 3])) * 0.5
+                        st0 = max(0.0, min(d - this_len, pk - lead))
+                    else:
+                        st0 = max(0.0, (d - this_len) / 2)
+                m["start"] = round(st0, 1)
+                run([FFMPEG, "-y", "-ss", f"{st0:.2f}", "-i", full, "-t", f"{min(this_len, d):.2f}", "-c:v", "libx264",
+                     "-preset", "veryfast", "-crf", "18", "-c:a", "aac", "-b:a", "160k", raw], timeout=900)
+            elif m.get("media"):  # archive.org: cut straight from the open file, no YouTube
                 run([FFMPEG, "-y", "-ss", f"{m['start']:.2f}", *IA_IN, "-i", m["media"], "-t", f"{this_len:.2f}",
                      "-vf", "scale=-2:'min(1080,ih)'", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
                      "-c:a", "aac", "-b:a", "128k", raw], timeout=1800)

@@ -31,6 +31,73 @@
         "#gta",
         "#rockstargames"
       ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "hooks": [
+        "GTA 6 players will NOT believe this 😳",
+        "Vice City just broke the internet 🌴🔥",
+        "Wait for the ending… GTA 6 💀",
+        "Rockstar really put THIS in GTA 6?! 🤯",
+        "The craziest GTA 6 moment so far 🔥",
+        "Day one GTA 6 and THIS happened 😱",
+        "Nobody's talking about this GTA 6 detail 👀",
+        "GTA 6 physics are actually insane 🤯",
+        "Wait… GTA 6 lets you do THIS? 😳",
+        "This GTA 6 chase went sideways 💀",
+        "Rate this GTA 6 moment 1–10 👇",
+        "POV: your first hour in Vice City 🌴",
+        "GTA 6 NPCs are way too smart 🤯",
+        "Rockstar hid THIS in GTA 6 👀"
+      ],
+      "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
+      "hook_first": true,
+      "exclude_title_words": [
+        "didn't show",
+        "didnt show",
+        "mod ",
+        " mods",
+        "modded",
+        "remake",
+        "remaster",
+        "concept",
+        "fan made",
+        "fanmade",
+        "leak",
+        "gta 5",
+        "gta v ",
+        "gtav",
+        "gta online",
+        "trailer",
+        "everything we know",
+        "graphics",
+        "recreat",
+        "prediction",
+        "theory",
+        "unreal engine",
+        "ue5",
+        "rumor",
+        "rumour"
+      ],
+      "provider": "twitch",
+      "twitch_games": [
+        "Grand Theft Auto VI"
+      ]
+    },
+    {
+      "game": "GTA 6",
+      "creator": "",
+      "priority": true,
+      "priority_share": 1.0,
+      "priority_until": "2026-12-18",
+      "hashtags": [
+        "#gta6",
+        "#gtavi",
+        "#vicecity",
+        "#grandtheftauto",
+        "#gta6gameplay",
+        "#leonida",
+        "#gta",
+        "#rockstargames"
+      ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "hooks": [
         "GTA 6 players will NOT believe this 😳",
@@ -80,7 +147,26 @@
       "provider": "archive",
       "query": "title:(\"gta 6\" OR \"gta vi\" OR \"grand theft auto vi\" OR \"gta6\")",
       "paused": true,
-      "_paused_note": "Nov 24 2026: archive.org has no clean GTA 6 gameplay yet (first batch was crypto-scam streams, Twitter reactions and GTA 5 footage). Re-enable once real CC GTA 6 gameplay shows up."
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "GTA 5",
+      "creator": "",
+      "hashtags": [
+        "#gta5",
+        "#gta",
+        "#gtaonline"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "exclude_title_words": [
+        "gta 6",
+        "gta vi",
+        "gta6"
+      ],
+      "provider": "twitch",
+      "twitch_games": [
+        "Grand Theft Auto V"
+      ]
     },
     {
       "game": "GTA 5",
@@ -97,6 +183,24 @@
         "gta 6",
         "gta vi",
         "gta6"
+      ],
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "Call of Duty",
+      "creator": "",
+      "hashtags": [
+        "#callofduty",
+        "#cod",
+        "#warzone"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "Call of Duty: Black Ops 7",
+        "Call of Duty: Black Ops 6",
+        "Call of Duty: Warzone"
       ]
     },
     {
@@ -109,7 +213,24 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"call of duty\" OR \"warzone\" OR \"modern warfare\" OR \"black ops\")"
+      "query": "title:(\"call of duty\" OR \"warzone\" OR \"modern warfare\" OR \"black ops\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "NBA 2K",
+      "creator": "",
+      "hashtags": [
+        "#nba2k",
+        "#2k",
+        "#basketball"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "NBA 2K26",
+        "NBA 2K25"
+      ]
     },
     {
       "game": "NBA 2K",
@@ -121,7 +242,24 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"nba 2k\" OR \"2k26\" OR \"2k25\" OR \"2k24\" OR \"nba2k\")"
+      "query": "title:(\"nba 2k\" OR \"2k26\" OR \"2k25\" OR \"2k24\" OR \"nba2k\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "EA FC",
+      "creator": "",
+      "hashtags": [
+        "#eafc",
+        "#fifa",
+        "#football"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "EA Sports FC 26",
+        "EA Sports FC 25"
+      ]
     },
     {
       "game": "EA FC",
@@ -133,7 +271,24 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"ea fc\" OR \"fc 26\" OR \"fc 25\" OR \"fifa 23\" OR \"fifa 22\" OR \"fifa\")"
+      "query": "title:(\"ea fc\" OR \"fc 26\" OR \"fc 25\" OR \"fifa 23\" OR \"fifa 22\" OR \"fifa\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "Madden",
+      "creator": "",
+      "hashtags": [
+        "#madden",
+        "#nfl",
+        "#football"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "Madden NFL 26",
+        "Madden NFL 25"
+      ]
     },
     {
       "game": "Madden",
@@ -145,7 +300,23 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"madden\")"
+      "query": "title:(\"madden\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "Halo",
+      "creator": "",
+      "hashtags": [
+        "#halo",
+        "#haloinfinite",
+        "#xbox"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "Halo Infinite"
+      ]
     },
     {
       "game": "Halo",
@@ -157,7 +328,24 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"halo infinite\" OR \"halo 5\" OR \"halo mcc\" OR \"halo\")"
+      "query": "title:(\"halo infinite\" OR \"halo 5\" OR \"halo mcc\" OR \"halo\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "Forza",
+      "creator": "",
+      "hashtags": [
+        "#forza",
+        "#forzahorizon",
+        "#racing"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "Forza Horizon 6",
+        "Forza Horizon 5"
+      ]
     },
     {
       "game": "Forza",
@@ -169,7 +357,22 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"forza horizon\" OR \"forza motorsport\" OR \"forza\")"
+      "query": "title:(\"forza horizon\" OR \"forza motorsport\" OR \"forza\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
+    },
+    {
+      "game": "Assassin's Creed",
+      "creator": "",
+      "hashtags": [
+        "#assassinscreed",
+        "#ubisoft"
+      ],
+      "credit_line": "🎥 Clip from {uploader} on Twitch",
+      "provider": "twitch",
+      "twitch_games": [
+        "Assassin's Creed Shadows"
+      ]
     },
     {
       "game": "Assassin's Creed",
@@ -180,7 +383,9 @@
       ],
       "credit_line": "🎥 Gameplay by {uploader} ({license}) — {url}",
       "provider": "archive",
-      "query": "title:(\"assassins creed\" OR \"assassin's creed\")"
+      "query": "title:(\"assassins creed\" OR \"assassin's creed\")",
+      "paused": true,
+      "_paused_note": "archive.org footage was low quality/not real modern gameplay (Nov 24 2026). Kept only as a disabled fallback."
     }
   ],
   "_example_source_copy_this_format": {
@@ -238,7 +443,7 @@
   "archive_results_per_game": 60,
   "archive_items_to_check": 6,
   "archive_max_file_mb": 2500,
-  "_source_note": "Nov 24 2026: switched all sources from YouTube to Internet Archive (archive.org) - no cookies, no login. Only CC BY, CC BY-SA and CC0 videos are used (NonCommercial/NoDerivatives are skipped).",
+  "_source_note": "Nov 24 2026 (Shraga): only modern, high-quality real gameplay. Main source = top Twitch clips of each game (real players, HD, no login). archive.org disabled. YouTube/official trailers need the cookie secret; Whop campaigns plug into 'campaigns' once he joins.",
   "archive_block_words": [
     "solana",
     "crypto",
@@ -279,5 +484,12 @@
     "end_card": false,
     "caption_pop": false
   },
-  "_edit_note": "Nov 24 2026 (Shraga): no slow-mo replay, almost no on-screen text - video fills the frame. Only the short hook title stays."
+  "_edit_note": "Nov 24 2026 (Shraga): no slow-mo replay, almost no on-screen text - video fills the frame. Only the short hook title stays.",
+  "twitch_period": "LAST_WEEK",
+  "twitch_clips_per_game": 40,
+  "twitch_min_height": 720,
+  "twitch_languages": [
+    "en"
+  ],
+  "twitch_min_views": 50
 }
