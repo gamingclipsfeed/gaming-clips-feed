@@ -401,11 +401,9 @@ def caption_chunks(words, max_words=3, max_gap=0.6):
 
 
 # ---------------------------------------------------------------- PG filter
-BAD_WORDS = {
-    "fuck","fucking","fucked","fucker","motherfucker","shit","shitty","bullshit","bitch","bitches",
-    "asshole","dick","dicks","pussy","cock","cunt","bastard","slut","whore",
-    "nigga","nigger","fag","faggot","retard","retarded","porn","horny",
-    "boobs","tits","titties","penis","vagina","wtf","stfu","milf","cocaine",
+BAD_WORDS = {  # platform-guideline safe (Shraga, Nov 24 2026): normal swearing is OK; slurs, sexual content and self-harm are not
+    "nigga","nigger","fag","faggot","retard","retarded","porn","horny","slut","whore","cunt",
+    "boobs","tits","titties","penis","vagina","milf","cock","pussy","cocaine",
     "kill yourself","kys","suicide","rape","raped",
 }
 
