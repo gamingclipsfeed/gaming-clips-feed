@@ -674,8 +674,52 @@ def render_short(src, out, title, captions, cfg, idx=0):
     shutil.rmtree(tmp, ignore_errors=True)
 
 
+# ---------------------------------------------------------------- visual PG-13 check (free, runs on CPU)
+_nude = None
+NSFW_HARD = {"FEMALE_BREAST_EXPOSED", "FEMALE_GENITALIA_EXPOSED", "MALE_GENITALIA_EXPOSED", "BUTTOCKS_EXPOSED", "ANUS_EXPOSED"}
+NSFW_SOFT = {"FEMALE_BREAST_COVERED", "BUTTOCKS_COVERED", "FEMALE_GENITALIA_COVERED", "BELLY_EXPOSED"}
+
+
+def visual_pg_check(path, cfg, frames=8):
+    """Look at frames across the clip; returns a reason string if it isn't PG-13, else ''."""
+    global _nude
+    try:
+        if _nude is None:
+            from nudenet import NudeDetector
+            _nude = NudeDetector()
+    except Exception as e:
+        return f"visual check unavailable ({str(e)[:80]}) - skipped to stay safe"
+    d = video_duration(path) or 10
+    soft_frames, hits = 0, []
+    for i in range(frames):
+        t = d * (i + 0.5) / frames
+        img = os.path.join(WORK, f"pg_{i}.jpg")
+        run([FFMPEG, "-y", "-ss", f"{t:.2f}", "-i", path, "-frames:v", "1", "-vf", "scale=640:-2", img], check=False, timeout=60)
+        if not os.path.exists(img):
+            continue
+        try:
+            det = _nude.detect(img)
+        except Exception:
+            det = []
+        labels = {x["class"] for x in det if x.get("score", 0) >= cfg.get("nsfw_threshold", 0.35)}
+        if labels & NSFW_HARD:
+            hits += sorted(labels & NSFW_HARD)
+        if labels & NSFW_SOFT:
+            soft_frames += 1
+        os.remove(img)
+    if hits:
+        return "nudity: " + ", ".join(sorted(set(hits)))
+    if soft_frames >= cfg.get("nsfw_soft_frames", 2):
+        return f"suggestive ({soft_frames}/{frames} frames)"
+    return ""
+
+
 # ---------------------------------------------------------------- one clip
 def make_clip(src_file, meta, cfg, state):
+    if cfg.get("keep_it_pg", True):
+        bad = visual_pg_check(src_file, cfg)
+        if bad:
+            raise NotPG(bad)
     words = transcribe(src_file, cfg)
     caps = caption_chunks(words) if cfg.get("captions", True) else []  # still transcribed for the PG check
     transcript = " ".join(w[2] for w in words)
@@ -764,6 +808,9 @@ def daily(cfg, state):
             for v in sorted(vids, key=lambda x: -x["views"]):
                 ttl = v["title"].lower()
                 blk = [w for w in src.get("exclude_title_words", []) + cfg.get("twitch_block_words", []) if w.lower() in ttl]
+                req = src.get("require_title_words") or []
+                if req and not any(w.lower() in ttl for w in req):
+                    blk = blk or ["no action word"]
                 r = ("title" if blk else "height" if v["height"] and v["height"] < min_h
                      else "lang" if langs and v["lang"].lower() not in langs else "views" if v["views"] < minv
                      else "short" if v["duration"] < 8 else "")
