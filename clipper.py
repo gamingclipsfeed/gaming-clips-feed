@@ -316,8 +316,6 @@ _whisper = None
 def transcribe(path, cfg):
     """Word-level transcript. Returns list of (start, end, word). Empty list if unavailable."""
     global _whisper
-    if not cfg.get("captions", True):
-        return []
     try:
         if _whisper is None:
             from faster_whisper import WhisperModel
@@ -633,7 +631,7 @@ def render_short(src, out, title, captions, cfg, idx=0):
 # ---------------------------------------------------------------- one clip
 def make_clip(src_file, meta, cfg, state):
     words = transcribe(src_file, cfg)
-    caps = caption_chunks(words)
+    caps = caption_chunks(words) if cfg.get("captions", True) else []  # still transcribed for the PG check
     transcript = " ".join(w[2] for w in words)
     if cfg.get("keep_it_pg", True):
         # no speech found = nothing un-PG to hear (archive gameplay is often commentary-free);
