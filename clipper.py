@@ -720,7 +720,7 @@ def cut_local(src, start, length, out):
 
 # ---------------------------------------------------------------- daily run
 def daily(cfg, state):
-    sources = [s for s in cfg.get("sources", []) if (s.get("url") or s.get("query")) and not s.get("paused")]
+    sources = [s for s in cfg.get("sources", []) if (s.get("url") or s.get("query") or s.get("twitch_games")) and not s.get("paused")]
     # exclusive push (e.g. GTA 6 only for a month): while active, every other source is skipped
     excl = [s for s in sources if s.get("exclusive") and TODAY <= s.get("priority_until", "9999-12-31")]
     if excl:
