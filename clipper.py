@@ -630,8 +630,8 @@ def make_clip(src_file, meta, cfg, state):
     caps = caption_chunks(words)
     transcript = " ".join(w[2] for w in words)
     if cfg.get("keep_it_pg", True):
-        if not words and cfg.get("captions", True):
-            raise NotPG("no transcript to check - skipped to stay safe")
+        # no speech found = nothing un-PG to hear (archive gameplay is often commentary-free);
+        # the clip still gets the animated hook, effects and end card, just no word captions
         hits = pg_check(transcript)
         if hits:
             raise NotPG(f"not PG ({', '.join(hits[:3])})")
