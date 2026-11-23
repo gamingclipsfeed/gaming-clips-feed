@@ -1,7 +1,7 @@
 {
   "file": "2026-11-24_01_GTA-6.mp4",
   "title": "This GTA 6 chase went sideways 💀",
-  "description": "This GTA 6 chase went sideways 💀\n\n🎮 GTA 6 | Clip from ohnePixel\nFull video: https://clips.twitch.tv/PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs\n🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
+  "description": "This GTA 6 chase went sideways 💀\n\n🎮 GTA 6 | Clip from Ludwig\nFull video: https://clips.twitch.tv/SassyWiseRingFeelsBadMan-KWr9lkKEN2ayfe1P\n🎥 Clip from Ludwig on Twitch — twitch.tv/ludwig\n\nDrop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!\n\n#gta6 #gtavi #vicecity #gaming #shorts #grandtheftauto #gta6gameplay #leonida #gta #rockstargames",
   "tags": [
     "gta6",
     "gtavi",
@@ -15,7 +15,7 @@
     "rockstargames"
   ],
   "game": "GTA 6",
-  "creator": "ohnePixel",
+  "creator": "Ludwig",
   "hashtags": [
     "#gta6",
     "#gtavi",
@@ -26,9 +26,9 @@
     "#gta",
     "#rockstargames"
   ],
-  "credit_line": "🎥 Clip from ohnePixel on Twitch — twitch.tv/ohnepixel",
-  "video_id": "tw_PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs",
-  "start": 29.0,
+  "credit_line": "🎥 Clip from Ludwig on Twitch — twitch.tv/ludwig",
+  "video_id": "tw_SassyWiseRingFeelsBadMan-KWr9lkKEN2ayfe1P",
+  "start": 0.0,
   "hooks": [
     "GTA 6 players will NOT believe this 😳",
     "Vice City just broke the internet 🌴🔥",
@@ -48,10 +48,9 @@
   "cta": "Drop a 🔥 if you're playing GTA 6 day one — follow for daily GTA 6 clips!",
   "hook_first": true,
   "length": 12,
-  "source_url": "https://clips.twitch.tv/PeacefulGlutenFreeVultureShazBotstix-KgHnVnwwgZOeO6Xs",
+  "source_url": "https://clips.twitch.tv/SassyWiseRingFeelsBadMan-KWr9lkKEN2ayfe1P",
   "style": "Full Screen",
   "hook": "This GTA 6 chase went sideways 💀",
   "date": "2026-11-24",
-  "posted": true,
-  "skipped_reason": "rejected on review: nudity/sexual content (not PG-13)"
+  "posted": false
 }

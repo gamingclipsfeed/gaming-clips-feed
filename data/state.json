@@ -145,6 +145,55 @@
       "game": "GTA 6",
       "video_id": "tw_ViscousStormySquirrelDancingBanana-2gkXgAHz-CwpC3GO",
       "start": 3.0
+    },
+    {
+      "date": "2026-11-24",
+      "file": "2026-11-24_01_GTA-6.mp4",
+      "game": "GTA 6",
+      "video_id": "tw_SassyWiseRingFeelsBadMan-KWr9lkKEN2ayfe1P",
+      "start": 0.0
+    },
+    {
+      "date": "skipped",
+      "file": "",
+      "game": "GTA 6",
+      "video_id": "tw_UnusualMoistSharkBIRB-Wlz2wmgaTOQAniKu",
+      "start": 0.5
+    },
+    {
+      "date": "skipped",
+      "file": "",
+      "game": "GTA 6",
+      "video_id": "tw_DifferentSullenReubenItsBoshyTime-K1Eo8-_fjY3ZqQan",
+      "start": 15.0
+    },
+    {
+      "date": "2026-11-24",
+      "file": "2026-11-24_02_GTA-5.mp4",
+      "game": "GTA 5",
+      "video_id": "tw_BlushingObliviousGarbageShazBotstix-A53SoOPGB84C2I4C",
+      "start": 15.0
+    },
+    {
+      "date": "2026-11-24",
+      "file": "2026-11-24_03_Forza.mp4",
+      "game": "Forza",
+      "video_id": "tw_RichFilthyHyenaTF2John-h8P7sOBNCREa4a07",
+      "start": 9.8
+    },
+    {
+      "date": "2026-11-24",
+      "file": "2026-11-24_04_Halo.mp4",
+      "game": "Halo",
+      "video_id": "tw_AgileExpensiveMinkGOWSkull-ZL2KZJX3cGC3UGE5",
+      "start": 6.2
+    },
+    {
+      "date": "2026-11-24",
+      "file": "2026-11-24_05_EA-FC.mp4",
+      "game": "EA FC",
+      "video_id": "tw_PopularStormyRutabagaWholeWheat-H3sAeADlRtEbFauo",
+      "start": 15.0
     }
   ]
 }
