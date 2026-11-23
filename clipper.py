@@ -477,46 +477,150 @@ def todays_style(idx=0, cfg=None):
     return pool[(TARGET_DATE.toordinal() + idx) % len(pool)]
 
 
+def media_props(path):
+    """(width, height, duration, has_audio) of a video file."""
+    r = run([FFMPEG, "-i", path], check=False)
+    e = r.stderr or ""
+    m = re.search(r"Video:.*?(\d{2,5})x(\d{2,5})", e)
+    w, h = (int(m.group(1)), int(m.group(2))) if m else (1920, 1080)
+    return w, h, video_duration(path), "Audio:" in e
+
+
+DEFAULT_FX = {"punch_zoom": 0.22, "shake": True, "flash": True, "replay": True, "replay_speed": 0.6,
+              "progress_bar": True, "sfx": True, "title_anim": True, "caption_pop": True, "end_card": True}
+
+
+def add_replay(src, peak, out, speed=0.6):
+    """B-roll: append a slow-motion 'instant replay' of the big moment to the end of the clip."""
+    w, h, dur, has_a = media_props(src)
+    a, b = max(0.0, peak - 0.6), min(dur, peak + 1.6)
+    if b - a < 1.0:
+        return None
+    f = 1.0 / speed
+    fc = (f"[0:v]split[m][r0];[m]setpts=PTS-STARTPTS[mv];[r0]trim=start={a:.2f}:end={b:.2f},setpts=(PTS-STARTPTS)*{f:.3f}[rv];"
+          f"[mv][rv]concat=n=2:v=1:a=0[v]")
+    maps = ["-map", "[v]"]
+    if has_a:
+        fc += (f";[0:a]asplit[ma][ra0];[ma]asetpts=PTS-STARTPTS[mav];[ra0]atrim=start={a:.2f}:end={b:.2f},"
+               f"asetpts=PTS-STARTPTS,atempo={speed:.3f}[rav];[mav][rav]concat=n=2:v=0:a=1[a]")
+        maps += ["-map", "[a]"]
+    r = run([FFMPEG, "-y", "-i", src, "-filter_complex", fc, *maps, "-r", "30", "-c:v", "libx264", "-preset", "veryfast",
+             "-crf", "18", "-c:a", "aac", "-b:a", "160k", out], timeout=1200, check=False)
+    return dur if r.returncode == 0 and os.path.exists(out) else None
+
+
 def render_short(src, out, title, captions, cfg, idx=0):
+    """Vertical 9:16 edit: animated hook title, pop-in captions, punch-in zoom + shake + flash on the
+    big moment, impact sound, progress bar, slow-mo instant replay (b-roll) and a follow end card.
+    Every effect can be switched off/tuned in config.json -> "effects" (the weekly review does this)."""
     W, H = 1080, 1920
+    fx = {**DEFAULT_FX, **(cfg.get("effects") or {})}
     st = todays_style(idx, cfg)
     zoom = float(st["zoom"])
     tmp = os.path.splitext(out)[0] + "_parts"
     os.makedirs(tmp, exist_ok=True)
+    peak = float(cfg.get("seconds_before_peak", 3))
+    orig_src = src
+
+    main_dur = None
+    if fx["replay"]:
+        rp = os.path.join(tmp, "with_replay.mp4")
+        main_dur = add_replay(src, peak, rp, float(fx.get("replay_speed", 0.6)))
+        if main_dur:
+            src = rp
+    sw, sh, D, has_a = media_props(src)
+    D = D or 15.0
+
     inputs = [src]
     title_png = os.path.join(tmp, "title.png")
     text_png(title, title_png, W, 78, st["title_fg"], (0, 0, 0) if sum(st["title_fg"]) > 300 else (255, 255, 255),
              box=st["title_box"][3] > 0, box_color=st["title_box"])
     inputs.append(title_png)
+    extra = []  # (png, x, y_expr, enable)
+    if main_dur:
+        rpng = os.path.join(tmp, "replay.png")
+        text_png("Instant replay", rpng, W, 70, (255, 255, 255), (0, 0, 0), box=True, box_color=(220, 30, 60, 235))
+        extra.append((rpng, "(W-w)/2", "560", f"gte(t,{main_dur:.2f})*lt(mod(t,0.7),0.5)"))
+    if fx["end_card"]:
+        epng = os.path.join(tmp, "follow.png")
+        text_png("Follow for daily clips", epng, W, 64, (20, 20, 20), (255, 255, 255), box=True, box_color=(255, 230, 0, 240))
+        extra.append((epng, "(W-w)/2", "1700", f"gte(t,{max(0.0, D - 2.0):.2f})"))
+    for p_, *_ in extra:
+        inputs.append(p_)
     cap_pngs = []
     colors = st["cap"]
     for i, (s, e, t) in enumerate(captions):
+        if main_dur and s >= main_dur:
+            continue
         p = os.path.join(tmp, f"cap{i:03d}.png")
         text_png(t, p, W, 96, colors[i % 2], (0, 0, 0) if sum(colors[i % 2]) > 300 else (255, 255, 255))
         cap_pngs.append((p, s, e))
         inputs.append(p)
 
+    # foreground size after scaling, so the punch-in zoom can keep a fixed frame size
     fg_w = int(W * zoom) // 2 * 2
+    fg_h = min(H, int(sh * fg_w / max(sw, 1)) // 2 * 2)
     if st["bg"] == "blur":
         bgf = f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=25:3,eq=brightness=-0.15[bg]"
     else:
         col = {"black": "black", "purple": "0x2a0f4f", "white": "white"}[st["bg"]]
         bgf = f"color=c={col}:s={W}x{H}:r=30[bgc];[bgc][0:v]scale2ref=w={W}:h={H}[bg][_r];[_r]nullsink"
-    fgf = f"[0:v]scale={fg_w}:-2,crop={W}:'min(ih,{H})'[fg]"
-    fc = [bgf, fgf, "[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1[v0]",
-          f"[v0][1:v]overlay=(W-w)/2:{st['title_y']}[v1]"]
-    last = "v1"
+    fgf = f"[0:v]scale={fg_w}:-2,crop={W}:{fg_h},setsar=1"
+    pz = float(fx.get("punch_zoom") or 0)
+    if pz > 0:
+        c = peak + 0.25
+        zexpr = f"1+{pz}*max(0\\,1-abs(it-{c:.2f})/0.8)"
+        if main_dur:  # zoom in again on the replay
+            zexpr += f"+{pz * 0.6}*gte(it\\,{main_dur:.2f})"
+        shake = f"+if(between(it\\,{peak:.2f}\\,{peak + 0.5:.2f})\\,14*sin(it*85)\\,0)" if fx["shake"] else ""
+        fgf += (f",zoompan=z='{zexpr}':d=1:x='iw/2-(iw/zoom/2){shake}':y='ih/2-(ih/zoom/2){shake.replace('sin', 'cos')}'"
+                f":s={W}x{fg_h}:fps=30")
+    fgf += "[fg]"
+    fc = [bgf, fgf, "[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1[v0]"]
+    ty = st["title_y"]
+    tyx = f"'if(lt(t,0.35),{ty}-260*(1-t/0.35),{ty})'" if fx["title_anim"] else str(ty)
+    fc.append(f"[v0][1:v]overlay=(W-w)/2:{tyx}[v1]")
+    last, n = "v1", 2
+    for j, (p_, x, y, en) in enumerate(extra):
+        fc.append(f"[{last}][{n}:v]overlay={x}:{y}:enable='{en}'[e{j}]")
+        last, n = f"e{j}", n + 1
     for i, (p, s, e) in enumerate(cap_pngs):
         nxt = f"c{i}"
-        fc.append(f"[{last}][{i + 2}:v]overlay=(W-w)/2:{st['cap_y']}:enable='between(t,{s:.2f},{e:.2f})'[{nxt}]")
-        last = nxt
+        cy = st["cap_y"]
+        y = f"'{cy}+if(lt(t-{s:.2f},0.09),40*(1-(t-{s:.2f})/0.09),0)'" if fx["caption_pop"] else str(cy)
+        fc.append(f"[{last}][{n}:v]overlay=(W-w)/2:{y}:enable='between(t,{s:.2f},{e:.2f})'[{nxt}]")
+        last, n = nxt, n + 1
+    post = []
+    if fx["flash"]:
+        post.append(f"drawbox=x=0:y=0:w=iw:h=ih:color=white@0.6:t=fill:enable='between(t,{peak:.2f},{peak + 0.08:.2f})'")
+    if fx["progress_bar"]:
+        post.append(f"drawbox=x=0:y=ih-16:w='iw*t/{D:.2f}':h=16:color=0xFFE600@0.95:t=fill")
+    if post:
+        fc.append(f"[{last}]" + ",".join(post) + "[vout]")
+        last = "vout"
+    amap = ["-map", "0:a?"]
+    if has_a and fx["sfx"]:
+        # impact 'boom' on the big moment + a short whoosh into it, made with ffmpeg (free, no assets)
+        ms = int(max(0, peak - 0.35) * 1000)
+        fc.append("aevalsrc='0.9*exp(-7*t)*sin(2*PI*(55+70*exp(-9*t))*t)|0.9*exp(-7*t)*sin(2*PI*(55+70*exp(-9*t))*t)':d=0.9:s=44100[boom]")
+        fc.append("anoisesrc=d=0.4:c=pink:a=0.35,afade=t=in:d=0.3,afade=t=out:st=0.3:d=0.1,highpass=f=800,aformat=channel_layouts=stereo[wh]")
+        fc.append(f"[boom]adelay={int(peak * 1000)}|{int(peak * 1000)}[b2];[wh]adelay={ms}|{ms}[w2]")
+        fc.append("[0:a]aformat=sample_rates=44100:channel_layouts=stereo[ma];[ma][b2][w2]amix=inputs=3:duration=first:normalize=0[aout]")
+        amap = ["-map", "[aout]"]
     cmd = [FFMPEG, "-y"]
     for p in inputs:
         cmd += ["-i", p]
-    cmd += ["-filter_complex", ";".join(fc), "-map", f"[{last}]", "-map", "0:a?",
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-maxrate", "1100k", "-bufsize", "2200k", "-pix_fmt", "yuv420p",
+    cmd += ["-filter_complex", ";".join(fc), "-map", f"[{last}]", *amap,
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-maxrate", "1400k", "-bufsize", "2800k", "-pix_fmt", "yuv420p",
             "-r", "30", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out]
-    run(cmd, timeout=1800)
+    r = run(cmd, timeout=1800, check=False)
+    if r.returncode != 0 or not os.path.exists(out):
+        shutil.rmtree(tmp, ignore_errors=True)
+        if any(fx.values()):
+            log(f"  ⚠️ effects render failed, retrying with plain edit: {(r.stderr or '')[-400:]}")
+            plain = {**cfg, "effects": {k: (0 if k in ("punch_zoom", "replay_speed") else False) for k in DEFAULT_FX}}
+            return render_short(orig_src, out, title, captions, plain, idx)
+        raise RuntimeError(f"render failed: {(r.stderr or '')[-800:]}")
     shutil.rmtree(tmp, ignore_errors=True)
 
 
