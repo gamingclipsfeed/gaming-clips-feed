@@ -28,4 +28,5 @@ jobs:
           rm -rf ready_to_post/*_parts data/work
           git add -A ready_to_post data/state.json logs || true
           git commit -m "Clips for $(date -d tomorrow +%F)" || echo "nothing new"
+          git pull --rebase -X theirs origin main || true
           git push
